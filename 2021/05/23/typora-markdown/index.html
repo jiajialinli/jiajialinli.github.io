@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:true,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script>
+<meta property="og:type" content="article">
+<meta property="og:title" content="typora基础">
+<meta property="og:url" content="http://example.com/2021/05/23/typora-markdown/index.html">
+<meta property="og:site_name" content="匆匆那年">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/05/23/typora-markdown/1.jpeg">
+<meta property="article:published_time" content="2021-05-23T13:30:58.000Z">
+<meta property="article:modified_time" content="2021-05-25T09:28:16.014Z">
+<meta property="article:author" content="jiajialinli">
+<meta property="article:tag" content="typora">
+<meta property="article:tag" content="makedown">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/05/23/typora-markdown/1.jpeg">
+
+
+<link rel="canonical" href="http://example.com/2021/05/23/typora-markdown/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;05&#x2F;23&#x2F;typora-markdown&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;05&#x2F;23&#x2F;typora-markdown&#x2F;&quot;,&quot;title&quot;:&quot;typora基础&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>typora基础 | 匆匆那年</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">匆匆那年</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">4</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">1</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">4</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Typora%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%95%B4%E5%90%88"><span class="nav-number">1.</span> <span class="nav-text">Typora快捷键整合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E9%A2%98-Ctrl-%E6%95%B0%E5%AD%97%E9%94%AE"><span class="nav-number">2.1.</span> <span class="nav-text">标题(Ctrl+数字键)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E6%91%98%E8%A6%81"><span class="nav-number">2.2.</span> <span class="nav-text">文章摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E5%88%92%E7%BA%BF"><span class="nav-number">2.3.</span> <span class="nav-text">下划线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E7%BA%BF"><span class="nav-number">2.4.</span> <span class="nav-text">删除线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%89%B2%E7%BA%BF"><span class="nav-number">2.5.</span> <span class="nav-text">分割线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E5%8A%A0%E7%B2%97"><span class="nav-number">2.6.</span> <span class="nav-text">字体加粗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E5%80%BE%E6%96%9C"><span class="nav-number">2.7.</span> <span class="nav-text">字体倾斜</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E8%B0%83"><span class="nav-number">2.8.</span> <span class="nav-text">强调</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-number">2.9.</span> <span class="nav-text">操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="nav-number">2.9.1.</span> <span class="nav-text">新建文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%8F%E6%98%BE%E7%A4%BA"><span class="nav-number">2.9.2.</span> <span class="nav-text">全屏显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%92%8C%E9%9A%90%E8%97%8F%E4%BE%A7%E8%BE%B9%E6%A0%8F"><span class="nav-number">2.9.3.</span> <span class="nav-text">显示和隐藏侧边栏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E4%B8%AD%E4%B8%80%E8%A1%8C"><span class="nav-number">2.9.4.</span> <span class="nav-text">选中一行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%90%9C%E7%B4%A2"><span class="nav-number">2.9.5.</span> <span class="nav-text">快速搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2"><span class="nav-number">2.9.6.</span> <span class="nav-text">替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E8%B7%B3%E8%BD%AC"><span class="nav-number">2.9.7.</span> <span class="nav-text">文章跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E4%B8%AD%E8%8B%B1%E6%96%87%E5%8D%95%E8%AF%8D-%E4%B8%AD%E6%96%87"><span class="nav-number">2.9.8.</span> <span class="nav-text">选中英文单词&#x2F;中文</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%97%E8%A1%A8"><span class="nav-number">3.</span> <span class="nav-text">列表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8"><span class="nav-number">3.1.</span> <span class="nav-text">无序列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E5%88%97%E8%A1%A8"><span class="nav-number">3.2.</span> <span class="nav-text">有序列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8"><span class="nav-number">3.3.</span> <span class="nav-text">任务列表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E7%89%87"><span class="nav-number">4.</span> <span class="nav-text">图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">4.1.</span> <span class="nav-text">举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">4.2.</span> <span class="nav-text">资源文件夹</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC"><span class="nav-number">5.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B6%85%E9%93%BE%E6%8E%A5"><span class="nav-number">6.</span> <span class="nav-text">超链接</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%951%EF%BC%88%E8%A1%8C%E5%86%85%E5%BC%8F%E9%93%BE%E6%8E%A5%EF%BC%89"><span class="nav-number">6.1.</span> <span class="nav-text">语法1（行内式链接）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%952%EF%BC%88%E5%8F%82%E8%80%83%E5%BC%8F%E9%93%BE%E6%8E%A5%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">语法2（参考式链接）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%953%EF%BC%88%E8%87%AA%E5%8A%A8%E9%93%BE%E6%8E%A5%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">语法3（自动链接）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%954-%E5%86%85%E9%83%A8%E8%B7%B3%E8%BD%AC"><span class="nav-number">6.4.</span> <span class="nav-text">语法4(内部跳转)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%955-tags-plugins"><span class="nav-number">6.5.</span> <span class="nav-text">语法5(tags plugins)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Link"><span class="nav-number">6.5.1.</span> <span class="nav-text">Link</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">7.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E6%96%87%E7%AB%A0"><span class="nav-number">7.2.</span> <span class="nav-text">引用文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%B5%84%E6%BA%90"><span class="nav-number">7.3.</span> <span class="nav-text">引用资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B-1"><span class="nav-number">7.4.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="nav-number">8.</span> <span class="nav-text">代码块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B"><span class="nav-number">8.1.</span> <span class="nav-text">样例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A"><span class="nav-number">9.</span> <span class="nav-text">特殊</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%A0%87"><span class="nav-number">9.1.</span> <span class="nav-text">上下标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E5%AD%97%E9%AB%98%E4%BA%AE"><span class="nav-number">9.2.</span> <span class="nav-text">文字高亮</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E6%83%85%E7%AC%A6%E5%8F%B7"><span class="nav-number">9.3.</span> <span class="nav-text">表情符号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E4%BA%AE%E6%98%BE%E7%A4%BA"><span class="nav-number">9.4.</span> <span class="nav-text">高亮显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E4%BF%9D%E5%AD%98"><span class="nav-number">9.5.</span> <span class="nav-text">自动保存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E8%84%9A%E6%B3%A8"><span class="nav-number">9.6.</span> <span class="nav-text">定义脚注</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="nav-number">10.</span> <span class="nav-text">特殊字符</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="jiajialinli"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">jiajialinli</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jiajialinli" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jiajialinli" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dhxyljl@126.com" title="E-Mail → mailto:dhxyljl@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.baidu.com/" title="https:&#x2F;&#x2F;www.baidu.com" rel="noopener" target="_blank">百度</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/jiajialinli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/23/typora-markdown/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiajialinli">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="匆匆那年">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          typora基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-05-23 21:30:58" itemprop="dateCreated datePublished" datetime="2021-05-23T21:30:58+08:00">2021-05-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-25 17:28:16" itemprop="dateModified" datetime="2021-05-25T17:28:16+08:00">2021-05-25</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/makedown/" itemprop="url" rel="index"><span itemprop="name">makedown</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/05/23/typora-markdown/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/05/23/typora-markdown/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <img src="/2021/05/23/typora-markdown/1.jpeg" class="">
+
+<span id="more"></span>
+
+<h1 id="Typora快捷键整合"><a href="#Typora快捷键整合" class="headerlink" title="Typora快捷键整合"></a>Typora快捷键整合</h1><table>
+<thead>
+<tr>
+<th align="left">Ctrl+0  段落</th>
+<th align="left">Ctrl+shift+[  有序列表  Ctrl+shift+] 无序列表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Ctrl+[ ]  列表增加/减少缩进</td>
+<td align="left">Ctrl+tab  应用内窗口切换</td>
+</tr>
+<tr>
+<td align="left">Ctrl+1  一阶标题</td>
+<td align="left"><strong>Ctrl+B</strong>  字体加粗</td>
+</tr>
+<tr>
+<td align="left">Ctrl+2  二阶标题</td>
+<td align="left"><em>Ctrl+I</em>  字体倾斜</td>
+</tr>
+<tr>
+<td align="left">Ctrl+3  三阶标题</td>
+<td align="left"><u>Ctrl+U</u>  下划线</td>
+</tr>
+<tr>
+<td align="left">Ctrl+4  四阶标题</td>
+<td align="left">Ctrl+Home   返回Typora顶部</td>
+</tr>
+<tr>
+<td align="left">Ctrl+5  五阶标题</td>
+<td align="left">Ctrl+End    返回Typora底部</td>
+</tr>
+<tr>
+<td align="left">Ctrl+6  六阶标题</td>
+<td align="left">Ctrl+L  选中某句话</td>
+</tr>
+<tr>
+<td align="left">Ctrl+T  创建表格</td>
+<td align="left">Ctrl+K  创建超链接</td>
+</tr>
+<tr>
+<td align="left">Ctrl+F  搜索</td>
+<td align="left">Ctrl+D  选中某个单词</td>
+</tr>
+<tr>
+<td align="left">Ctrl+H  搜索并替换</td>
+<td align="left">Ctrl+E  选中相同格式的文字</td>
+</tr>
+<tr>
+<td align="left">Ctrl+Shift+I    插入图片</td>
+<td align="left">Alt+Shift+5 删除线</td>
+</tr>
+<tr>
+<td align="left">Ctrl+Shift+M    公式块</td>
+<td align="left">Ctrl+Shift+Q  引用符号为 &gt;</td>
+</tr>
+</tbody></table>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="标题-Ctrl-数字键"><a href="#标题-Ctrl-数字键" class="headerlink" title="标题(Ctrl+数字键)"></a>标题(Ctrl+数字键)</h2><blockquote>
+<p>makedown总共有六级标题,对应HTML标题H1-H6,快捷键为Ctrl+1-6</p>
+<p>段落快捷键为 Ctrl+0</p>
+<p>重复按键将由标题转换为段落</p>
+</blockquote>
+<h2 id="文章摘要"><a href="#文章摘要" class="headerlink" title="文章摘要"></a>文章摘要</h2><p>使用<code>&lt;!-- more --&gt;</code>来对文章进行截断</p>
+<p>前半部分作为摘要显示在首页</p>
+<p>在正文中<code>&lt;!-- more --&gt;</code>的位置会空出一行</p>
+<h2 id="下划线"><a href="#下划线" class="headerlink" title="下划线"></a>下划线</h2><p><code>Ctrl+u</code> 或者 <code>&lt;u&gt;&lt;/u&gt;</code></p>
+<p><u>优雅的设计</u></p>
+<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><p><code>alt+shift+5</code> 或者 <code>&lt;s&gt;&lt;/s&gt;</code></p>
+<p><del>优雅的设计</del></p>
+<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><p><code>---+enter</code> 或 <code>***+enter</code> 或 <code>+++ + enter</code></p>
+<h2 id="字体加粗"><a href="#字体加粗" class="headerlink" title="字体加粗"></a>字体加粗</h2><p><code>Ctrl+b</code> 或者 <code>&lt;b&gt;&lt;/b&gt;</code></p>
+<p><strong>优雅的设计</strong></p>
+<h2 id="字体倾斜"><a href="#字体倾斜" class="headerlink" title="字体倾斜"></a>字体倾斜</h2><p><code>Ctrl+i</code> 或者 <code>&lt;i&gt;&lt;/i&gt;</code></p>
+<p><em>优雅的设计</em></p>
+<h2 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">`强调的文字`  用单个反引号包裹 </span><br><span class="line">​```强调的文字```  用三个反引号包裹</span><br><span class="line">Ctrl+shift+`  快捷键</span><br></pre></td></tr></table></figure>
+
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p><code>Ctrl+n</code></p>
+<h3 id="全屏显示"><a href="#全屏显示" class="headerlink" title="全屏显示"></a>全屏显示</h3><p><code>f11</code></p>
+<h3 id="显示和隐藏侧边栏"><a href="#显示和隐藏侧边栏" class="headerlink" title="显示和隐藏侧边栏"></a>显示和隐藏侧边栏</h3><p><code>Ctrl+shift+L</code></p>
+<h3 id="选中一行"><a href="#选中一行" class="headerlink" title="选中一行"></a>选中一行</h3><p><code>Ctrl+L</code>或者三击鼠标左键</p>
+<h3 id="快速搜索"><a href="#快速搜索" class="headerlink" title="快速搜索"></a>快速搜索</h3><p><code>Ctrl+f</code></p>
+<h3 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h3><p><code>Ctrl+h</code></p>
+<h3 id="文章跳转"><a href="#文章跳转" class="headerlink" title="文章跳转"></a>文章跳转</h3><p><code>Ctrl+home</code>跳转到文章开头,<code>Ctrl+end</code> 跳转到文章末尾</p>
+<h3 id="选中英文单词-中文"><a href="#选中英文单词-中文" class="headerlink" title="选中英文单词/中文"></a>选中英文单词/中文</h3><p><code>Ctrl+d</code></p>
+<h1 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h1><h2 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h2><p><code>-[*/+]+space</code></p>
+<ul>
+<li><p>牛奶</p>
+</li>
+<li><p>面包</p>
+</li>
+<li><p>蛋糕</p>
+<p><code>tab</code>且套第二层</p>
+<ul>
+<li>嵌套列表</li>
+<li>牛奶</li>
+<li>面包</li>
+<li>蛋糕 </li>
+</ul>
+</li>
+</ul>
+<h2 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h2><p><code>数字+.+space</code></p>
+<ol>
+<li><p>牛奶</p>
+</li>
+<li><p>面包</p>
+</li>
+<li><p>蛋糕</p>
+<p><code>tab</code>且套第二层</p>
+<ol>
+<li>鸡蛋</li>
+<li>火腿</li>
+</ol>
+</li>
+</ol>
+<h2 id="任务列表"><a href="#任务列表" class="headerlink" title="任务列表"></a>任务列表</h2><blockquote>
+<p>注意有三个空格</p>
+</blockquote>
+<p><code>-（空格）[空格]（空格） </code> 或者 <code>（TAB）-（空格）[空格]</code></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> a</li>
+<li><input disabled="" type="checkbox"> b</li>
+</ul>
+<h1 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctrl+shift+i  快捷键</span><br><span class="line">![]()  格式</span><br></pre></td></tr></table></figure>
+
+<p>通过常规的 markdown 语法和相对路径来引用图片和其它资源可能会导致它们在存档页或者主页上显示不正确。</p>
+<p>比如说：当你打开文章资源文件夹功能后，你把一个 <code>example.jpg</code> 图片放在了你的资源文件夹中，如果通过使用相对路径的常规 markdown 语法 <code>![](example.jpg)</code> ，它将 <em>不会</em> 出现在首页上。（但是它会在文章中按你期待的方式工作）</p>
+<p>正确的引用图片方式是使用下列的标签插件而不是 markdown ,为此你需要配置<a href="#%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9">资源文件夹</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img example.jpg This is an example image %&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">完整格式:</span><br><span class="line">&#123;% asset_img [class names] slug [width] [height] [title text [alt text]] %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式，图片将会同时出现在文章和主页以及归档页中。</p>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p><strong>Default (no option)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img foo.jpg %&#125;</span><br><span class="line">&lt;img src=&quot;/2020/01/02/hello/foo.jpg&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Custom class</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img post-image foo.jpg %&#125;</span><br><span class="line">&lt;img src=&quot;/2020/01/02/hello/foo.jpg&quot; class=&quot;post-image&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Display size</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img foo.jpg 500 400 %&#125;</span><br><span class="line">&lt;img src=&quot;/2020/01/02/hello/foo.jpg&quot; width=&quot;500&quot; height=&quot;400&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Title &amp; Alt</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img logo.svg &quot;lorem ipsum&#x27;dolor&#x27;&quot; %&#125;</span><br><span class="line">&lt;img src=&quot;/2020/01/02/hello/foo.jpg&quot; title=&quot;lorem ipsum&quot; alt=&quot;dolor&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="资源文件夹"><a href="#资源文件夹" class="headerlink" title="资源文件夹"></a>资源文件夹</h2><p>首先是设置配置文件</p>
+<figure class="highlight plaintext"><figcaption><span>hexo/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">post_asset_folder: true</span><br><span class="line"></span><br><span class="line">marked:</span><br><span class="line">  prependRoot: true</span><br><span class="line">  postAsset: true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>当资源文件管理功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹。这个资源文件夹将会有与这个文章文件一样的名字。将所有与你的文章有关的资源放在这个关联文件夹中之后，你可以通过相对路径来引用它们，这样你就得到了一个更简单而且方便得多的工作流。</p>
+<h1 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h1><p><code>Ctrl+t</code></p>
+<p><code>|姓名|年龄|</code></p>
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th>年龄</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h1><ul>
+<li><h2 id="语法1（行内式链接）"><a href="#语法1（行内式链接）" class="headerlink" title="语法1（行内式链接）"></a>语法1（<em>行内式链接</em>）</h2><p><code>ctrl+k</code>  快捷键</p>
+</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">百度</span>](<span class="link">https://www.baidu.com/</span>)</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.baidu.com/">百度</a></p>
+<p><a href="#%E8%A1%A8%E6%A0%BC">表格</a>    <em>如果不加协议会在路径后面拼接</em></p>
+<ul>
+<li><h2 id="语法2（参考式链接）"><a href="#语法2（参考式链接）" class="headerlink" title="语法2（参考式链接）"></a>语法2（<em>参考式链接</em>）</h2></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[CSDN][CSDN网址]</span><br><span class="line">[CSDN网址]<span class="symbol">:https</span><span class="symbol">://www</span>.csdn.net/</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.csdn.net/" title="csdn">CSDN</a></p>
+<p><em>如果不加协议会在路径后面拼接</em></p>
+<ul>
+<li><h2 id="语法3（自动链接）"><a href="#语法3（自动链接）" class="headerlink" title="语法3（自动链接）"></a>语法3（<em>自动链接</em>）</h2></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;https:<span class="comment">//github.com/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.github.com/">https://www.github.com</a></p>
+<p><em>如果不加协议会出错</em></p>
+<ul>
+<li><h2 id="语法4-内部跳转"><a href="#语法4-内部跳转" class="headerlink" title="语法4(内部跳转)"></a><strong>语法4(<em>内部跳转</em>)</strong></h2></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#表格&quot;</span>&gt;</span>跳到表格<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">[跳到表格](#表格)</span><br><span class="line">[表格][跳到表格]</span><br><span class="line">[跳到表格]: #表格</span><br></pre></td></tr></table></figure>
+
+<p><code>测试一</code><a href="#表格">跳到表格</a></p>
+<p><code>测试二</code><a href="#%E8%A1%A8%E6%A0%BC">跳到表格</a></p>
+<p><code>测试三</code><a href="#%E8%A1%A8%E6%A0%BC">表格</a></p>
+<ul>
+<li><h2 id="语法5-tags-plugins"><a href="#语法5-tags-plugins" class="headerlink" title="语法5(tags plugins)"></a><strong>语法5(<em>tags plugins</em>)</strong></h2></li>
+</ul>
+<h3 id="Link"><a href="#Link" class="headerlink" title="Link"></a>Link</h3><p>在文章中插入链接，并自动给外部链接添加 <code>target=&quot;_blank&quot;</code> 属性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% link text url [external] [title] %&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt;  使用符号</span></span><br><span class="line">Ctrl+shift+Q 快捷键</span><br><span class="line">标签插件(Tag Plugins)引用快:</span><br><span class="line"><span class="code">	&#123;% blockquote [author[, source]] [link] [source_link_title] %&#125;</span></span><br><span class="line"><span class="code">	content</span></span><br><span class="line"><span class="code">	&#123;% endblockquote %&#125;	</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h2><p>引用其他文章的链接。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_path filename %&#125;</span><br><span class="line">&#123;% post_link filename [title] [escape] %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在使用此标签时可以忽略文章文件所在的路径或者文章的永久链接信息、如语言、日期。</p>
+<p>例如，在文章中使用 <code>&#123;% post_link how-to-bake-a-cake %&#125;</code> 时，只需有一个名为 <code>how-to-bake-a-cake.md</code> 的文章文件即可。即使这个文件位于站点文件夹的 <code>source/posts/2015-02-my-family-holiday</code> 目录下、或者文章的永久链接是 <code>2018/en/how-to-bake-a-cake</code>，都没有影响。</p>
+<p>默认链接文字是文章的标题，你也可以自定义要显示的文本。</p>
+<p>默认对文章的标题和自定义标题里的特殊字符进行转义。可以使用<code>escape</code>选项，禁止对特殊字符进行转义。</p>
+<p><strong>链接使用文章的标题</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_link hexo-3-8-released %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://hexo.io/news/2018/10/19/hexo-3-8-released/">Hexo 3.8.0 Released</a></p>
+<p><strong>链接使用自定义文字</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_link hexo-3-8-released &#x27;通往文章的链接&#x27; %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://hexo.io/news/2018/10/19/hexo-3-8-released/">通往文章的链接</a></p>
+<p><strong>对标题的特殊字符进行转义</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_link hexo-4-released &#x27;How to use &lt;b&gt; tag in title&#x27; %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://hexo.io/news/2019/10/14/hexo-4-released/">How to use  tag in title</a></p>
+<p><strong>禁止对标题的特殊字符进行转义</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_link hexo-4-released &#x27;&lt;b&gt;bold&lt;/b&gt; custom title&#x27; false %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://hexo.io/news/2019/10/14/hexo-4-released/"><strong>bold</strong> custom title</a></p>
+<h2 id="引用资源"><a href="#引用资源" class="headerlink" title="引用资源"></a>引用资源</h2><p>引用文章的资源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_path filename %&#125;</span><br><span class="line">&#123;% asset_img [class names] slug [width] [height] [title text [alt text]] %&#125;</span><br><span class="line">&#123;% asset_link filename [title] [escape] %&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="举例-1"><a href="#举例-1" class="headerlink" title="举例"></a>举例</h2><hr><b>没有提供参数，则只输出普通的 blockquote</b>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% blockquote %&#125;</span><br><span class="line">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper at eu lorem.</span><br><span class="line">&#123;% endblockquote %&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper at eu lorem.</p>
+</blockquote>
+
+<hr>
+
+<p><strong>引用书上的句子</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% blockquote David Levithan, Wide Awake %&#125;</span><br><span class="line">Do not just seek happiness for yourself. Seek happiness for all. Through kindness. Through mercy.</span><br><span class="line">&#123;% endblockquote %&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote><p>Do not just seek happiness for yourself. Seek happiness for all. Through kindness. Through mercy.</p>
+<footer><strong>David Levithan</strong><cite>Wide Awake</cite></footer></blockquote>
+
+<hr>
+
+<p><strong>引用 Twitter</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% blockquote @DevDocs https://twitter.com/devdocs/status/356095192085962752 %&#125;</span><br><span class="line">NEW: DevDocs now comes with syntax highlighting. http://devdocs.io</span><br><span class="line">&#123;% endblockquote %&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote><p>NEW: DevDocs now comes with syntax highlighting. <a target="_blank" rel="noopener" href="http://devdocs.io/">http://devdocs.io</a></p>
+<footer><strong>@DevDocs</strong><cite><a target="_blank" rel="noopener" href="https://twitter.com/devdocs/status/356095192085962752">twitter.com/devdocs/status/356095192085962752</a></cite></footer></blockquote>
+
+<hr>
+
+<p><strong>引用网络上的文章</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% blockquote Seth Godin http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html Welcome to Island Marketing %&#125;</span><br><span class="line">Every interaction is both precious and an opportunity to delight.</span><br><span class="line">&#123;% endblockquote %&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote><p>Every interaction is both precious and an opportunity to delight.</p>
+<footer><strong>Seth Godin</strong><cite><a target="_blank" rel="noopener" href="http://sethgodin.typepad.com/seths_blog/2009/07/welcome-to-island-marketing.html">Welcome to Island Marketing</a></cite></footer></blockquote>
+
+<h1 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+shift+k 快捷键</span><br><span class="line">​~~~</span><br><span class="line"><span class="string">``</span><span class="string">`</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>python</span><br><span class="line">​~~~java</span><br><span class="line">hexo tags plugins:</span><br><span class="line">	&#123;% codeblock [title] [lang:language] [url] [link text] [additional options] %&#125;</span><br><span class="line">	code snippet</span><br><span class="line">	&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Specify additional options in <code>option:value</code> format, e.g. <code>line_number:false first_line:5</code>.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Extra Options</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>line_number</code></td>
+<td align="left">Show line number</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left"><code>highlight</code></td>
+<td align="left">Enable code highlighting</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left"><code>first_line</code></td>
+<td align="left">Specify the first line number</td>
+<td align="left"><code>1</code></td>
+</tr>
+<tr>
+<td align="left"><code>mark</code></td>
+<td align="left">Line highlight specific line(s), each value separated by a comma. Specify number range using a dash Example: <code>mark:1,4-7,10</code> will mark line 1, 4 to 7 and 10.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>wrap</code></td>
+<td align="left">Wrap the code block in <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table">``</a></td>
+<td align="left"><code>true</code></td>
+</tr>
+</tbody></table>
+<h2 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h2><p><strong>普通的代码块</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% codeblock %&#125;</span><br><span class="line">alert(&#x27;Hello World!&#x27;);</span><br><span class="line">&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alert(&#x27;Hello World!&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>指定语言</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% codeblock lang:objc %&#125;</span><br><span class="line">[rectangle setX: 10 y: 10 width: 20 height: 20];</span><br><span class="line">&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[rectangle setX: <span class="number">10</span> y: <span class="number">10</span> width: <span class="number">20</span> height: <span class="number">20</span>];</span><br></pre></td></tr></table></figure>
+
+<p><strong>附加说明</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% codeblock Array.map %&#125;</span><br><span class="line">array.map(callback[, thisArg])</span><br><span class="line">&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><figcaption><span>Array.map</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array.map(callback[, thisArg])</span><br></pre></td></tr></table></figure>
+
+<p><strong>附加说明和网址</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% codeblock _.compact http://underscorejs.org/#compact Underscore.js %&#125;</span><br><span class="line">_.compact([0, 1, false, 2, &#x27;&#x27;, 3]);</span><br><span class="line">=&gt; [1, 2, 3]</span><br><span class="line">&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><figcaption><span>_.compact</span><a target="_blank" rel="noopener" href="http://underscorejs.org/#compact">Underscore.js</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_.compact([0, 1, false, 2, &#x27;&#x27;, 3]);</span><br><span class="line">=&gt; [1, 2, 3]</span><br></pre></td></tr></table></figure>
+
+<h1 id="特殊"><a href="#特殊" class="headerlink" title="特殊"></a>特殊</h1><p>需要启用对<code>markdown的扩展支持</code></p>
+<p>位置在<code>&#39;文件&#39;</code> &gt;&gt;&gt;<code>&#39;偏好设置&#39;</code>&gt;&gt;&gt;<code>&#39;markdown&#39;</code>&gt;&gt;&gt;<code>&#39;markdown扩展语法&#39;</code></p>
+<h2 id="上下标"><a href="#上下标" class="headerlink" title="上下标"></a>上下标</h2><div style="color:red">需要打开偏好设置,markdown中的上标和下标</div>
+
+<p><code>h~2~</code>  h<del>2</del></p>
+<p><code>h^2^</code>  h^2^</p>
+<h2 id="文字高亮"><a href="#文字高亮" class="headerlink" title="文字高亮"></a>文字高亮</h2><p><code>==文字高亮==</code> </p>
+<p>==文字高亮==</p>
+<h2 id="表情符号"><a href="#表情符号" class="headerlink" title="表情符号"></a>表情符号</h2><p>输入冒号会提示表情</p>
+<p><code>:calling:</code></p>
+<p>:calling:</p>
+<h2 id="高亮显示"><a href="#高亮显示" class="headerlink" title="高亮显示"></a>高亮显示</h2><p>需要在设置中打开</p>
+<p>==python==</p>
+<h2 id="自动保存"><a href="#自动保存" class="headerlink" title="自动保存"></a>自动保存</h2><p>需要在设置中打开</p>
+<h2 id="定义脚注"><a href="#定义脚注" class="headerlink" title="定义脚注"></a>定义脚注</h2><p>我<a href="%E6%88%91%E5%B0%B1%E6%98%AF%E6%88%91">^1</a></p>
+<h1 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h1><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&amp;copy;      版权      </span><br><span class="line">&amp;reg;       注册商标</span><br><span class="line">&amp;trade;     商标</span><br><span class="line">&amp;nbsp;      空格</span><br><span class="line">&amp;amp;       和号</span><br><span class="line">&amp;quot;      引号</span><br><span class="line">&amp;apos;      撇号</span><br><span class="line">&amp;lt;        小于号</span><br><span class="line">&amp;gt;        大于号</span><br><span class="line">&amp;ne;        不等号</span><br><span class="line">&amp;le;        小于等于</span><br><span class="line">&amp;ge;        大于等于</span><br><span class="line">&amp;cent;      分</span><br><span class="line">&amp;pound;     磅</span><br><span class="line">&amp;euro;      欧元</span><br><span class="line">&amp;yen;       元</span><br><span class="line">&amp;sect;      节</span><br><span class="line">&amp;times;     乘号</span><br><span class="line">&amp;divide;    除号</span><br><span class="line">&amp;plusmn;    正负号</span><br></pre></td></tr></table></figure>
+
+<a href="/2021/05/25/HTML%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%AF%B9%E7%85%A7%E8%A1%A8/" title="HTML特殊字符编码对照表">HTML特殊字符编码对照表</a>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="jiajialinli 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/typora/" rel="tag"><i class="fa fa-tag"></i> typora</a>
+              <a href="/tags/makedown/" rel="tag"><i class="fa fa-tag"></i> makedown</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/22/my-first-blog/" rel="prev" title="my_first_blog">
+                  <i class="fa fa-chevron-left"></i> my_first_blog
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/25/HTML%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%AF%B9%E7%85%A7%E8%A1%A8/" rel="next" title="HTML特殊字符编码对照表">
+                  HTML特殊字符编码对照表 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="SOHUCS"></div><script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiajialinli</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">11k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">10 分钟</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="changyan" type="application/json">{&quot;enable&quot;:true,&quot;appid&quot;:&quot;cyvtfml6g&quot;,&quot;appkey&quot;:&quot;e731448e5dc22bd7ea7e9fbafa2f6589&quot;}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+
+</body>
+</html>
