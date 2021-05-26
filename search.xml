@@ -3,7 +3,7 @@
   <entry>
     <title>unicode_icon</title>
     <url>/2021/05/25/unicode-icon/</url>
-    <content><![CDATA[<img src="/2021/05/25/unicode-icon/1.jpg" class="" width="1000" height="300">
+    <content><![CDATA[<img src="/2021/05/25/unicode-icon/1.jpg" class="">
 
 <p>在写项目的过程中,或多或少会用到字体图标.</p>
 <p><a style='color:blue' href="https://www.cnblogs.com/tu-0718/p/9960808.html">字体图标三种格式区别（Unicode / Font class / Symbol)</a></p>
@@ -19,7 +19,7 @@
   <entry>
     <title>HTML特殊字符编码对照表</title>
     <url>/2021/05/25/HTML%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
-    <content><![CDATA[<img src="/2021/05/25/HTML%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%AF%B9%E7%85%A7%E8%A1%A8/1.jpeg" class="" width="1000" height="300">
+    <content><![CDATA[<img src="/2021/05/25/HTML%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%AF%B9%E7%85%A7%E8%A1%A8/1.jpeg" class="">
 
 <p>HTML特殊字符编码,可以直接复制粘贴使用</p>
 <span id="more"></span>
@@ -584,7 +584,9 @@
   <entry>
     <title>Hello World</title>
     <url>/2021/05/22/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+    <content><![CDATA[<img src="/2021/05/22/hello-world/1.jpg" class="">
+
+<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><span id="more"></span>
 
 <h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
@@ -604,7 +606,7 @@
   <entry>
     <title>typora基础</title>
     <url>/2021/05/23/typora-markdown/</url>
-    <content><![CDATA[<img src="/2021/05/23/typora-markdown/2.jpg" class="" width="1000" height="300">
+    <content><![CDATA[<img src="/2021/05/23/typora-markdown/2.jpg" class="">
 
 <p>typora使用技巧及markdown基础语法</p>
 <span id="more"></span>
