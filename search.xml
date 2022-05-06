@@ -17,6 +17,11 @@
       </tags>
   </entry>
   <entry>
+    <title>test</title>
+    <url>/2022/05/06/test/</url>
+    <content><![CDATA[<h1 id="欢迎来到我的博客-thanks"><a href="#欢迎来到我的博客-thanks" class="headerlink" title="欢迎来到我的博客,thanks!"></a>欢迎来到我的博客,thanks!</h1>]]></content>
+  </entry>
+  <entry>
     <title>HTML特殊字符编码对照表</title>
     <url>/2021/05/25/HTML%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
     <content><![CDATA[<img src="/2021/05/25/HTML%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%AF%B9%E7%85%A7%E8%A1%A8/1.jpeg" class="">
@@ -582,28 +587,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/05/22/hello-world/</url>
-    <content><![CDATA[<img src="/2021/05/22/hello-world/1.jpg" class="">
-
-<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><span id="more"></span>
-
-<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>typora基础</title>
     <url>/2021/05/23/typora-markdown/</url>
     <content><![CDATA[<img src="/2021/05/23/typora-markdown/2.jpg" class="">
@@ -959,19 +942,25 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2021/06/15/%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9/</url>
-    <content><![CDATA[<h1 id="远程助手更新说明文档"><a href="#远程助手更新说明文档" class="headerlink" title="远程助手更新说明文档"></a>远程助手更新说明文档</h1><p>1.打开195共享如下位置:</p>
-<p><a href="%5C172.16.1.195%5Cit%5C1"></a></p>
-<p>双击文件**”安装向日葵v1.0.exe”**</p>
-<p>如图:</p>
-<img src="1.png" style="zoom:75%;" />
+    <title>Hello World</title>
+    <url>/2021/05/22/hello-world/</url>
+    <content><![CDATA[<img src="/2021/05/22/hello-world/1.jpg" class="">
 
-<p>2.弹出如下窗口,点击<strong>运行</strong></p>
-<img src="2.png" style="zoom:100%;" />
+<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><span id="more"></span>
 
-<p>3.请耐心等待程序运行,出现如下界面表示安装成功.</p>
-<p><img src="/3.png"></p>
+<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
   </entry>
 </search>
