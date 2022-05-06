@@ -958,4 +958,20 @@
         <tag>makedown</tag>
       </tags>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2021/06/15/%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9/</url>
+    <content><![CDATA[<h1 id="远程助手更新说明文档"><a href="#远程助手更新说明文档" class="headerlink" title="远程助手更新说明文档"></a>远程助手更新说明文档</h1><p>1.打开195共享如下位置:</p>
+<p><a href="%5C172.16.1.195%5Cit%5C1"></a></p>
+<p>双击文件**”安装向日葵v1.0.exe”**</p>
+<p>如图:</p>
+<img src="1.png" style="zoom:75%;" />
+
+<p>2.弹出如下窗口,点击<strong>运行</strong></p>
+<img src="2.png" style="zoom:100%;" />
+
+<p>3.请耐心等待程序运行,出现如下界面表示安装成功.</p>
+<p><img src="/3.png"></p>
+]]></content>
+  </entry>
 </search>
