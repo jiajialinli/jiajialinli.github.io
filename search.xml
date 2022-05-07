@@ -64,6 +64,8 @@
 <td>172.16.248.212</td>
 </tr>
 </tbody></table>
+<span id="more"></span>
+
 <h1 id="系统调整"><a href="#系统调整" class="headerlink" title="系统调整"></a>系统调整</h1><h3 id="设置hosts解析"><a href="#设置hosts解析" class="headerlink" title="设置hosts解析"></a>设置hosts解析</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 ~]<span class="comment"># cat /etc/hosts</span></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line">172.16.248.210	ljl-centos7-m1</span><br><span class="line">172.16.248.211	ljl-centos7-n1</span><br><span class="line">172.16.248.212	ljl-centos7-n2</span><br></pre></td></tr></table></figure>
 
 <h3 id="关闭虚拟缓存并防止开机挂载swap分区"><a href="#关闭虚拟缓存并防止开机挂载swap分区" class="headerlink" title="关闭虚拟缓存并防止开机挂载swap分区"></a>关闭虚拟缓存并防止开机挂载swap分区</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 ~]<span class="comment"># swapoff -a</span></span><br><span class="line">[root@ljl-centos7-m1 ~]<span class="comment"># sed -i &#x27;/ swap / s/^\(.*\)$/#\1/g&#x27; /etc/fstab</span></span><br><span class="line">[root@ljl-centos7-m1 ~]<span class="comment"># cat /etc/fstab |grep swap</span></span><br><span class="line"><span class="comment">#/dev/mapper/centos-swap swap                    swap    defaults        0 0</span></span><br></pre></td></tr></table></figure>
