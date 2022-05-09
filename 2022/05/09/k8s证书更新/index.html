@@ -26,8 +26,8 @@
 <meta property="og:site_name" content="匆匆那年">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2022/05/09/k8s%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/1651979690734.jpg">
-<meta property="article:published_time" content="2022-05-09T01:21:22.000Z">
-<meta property="article:modified_time" content="2022-05-09T01:21:22.182Z">
+<meta property="article:published_time" content="2022-05-09T01:54:52.000Z">
+<meta property="article:modified_time" content="2022-05-09T01:54:52.617Z">
 <meta property="article:author" content="jiajialinli">
 <meta property="article:tag" content="cert">
 <meta name="twitter:card" content="summary">
@@ -147,7 +147,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E6%9F%A5%E7%9C%8B"><span class="nav-number">2.</span> <span class="nav-text">证书查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">备份文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8kubeadm%E5%BB%B6%E9%95%BF%E8%AF%81%E4%B9%A6%E4%B8%80%E5%B9%B4"><span class="nav-number">4.</span> <span class="nav-text">使用kubeadm延长证书一年</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#etcd%E5%9C%A8%E9%9B%86%E7%BE%A4%E5%86%85%E9%83%A8"><span class="nav-number">4.1.</span> <span class="nav-text">etcd在集群内部</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%8E%9F%E6%9C%89%E8%AF%81%E4%B9%A6"><span class="nav-number">4.1.1.</span> <span class="nav-text">删除原有证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E8%AF%81%E4%B9%A6%E5%8F%8A%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.2.</span> <span class="nav-text">创建新证书及文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%90%AFkubelet%E5%92%8Cdocker"><span class="nav-number">4.1.3.</span> <span class="nav-text">重启kubelet和docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEkubectl-config%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.4.</span> <span class="nav-text">配置kubectl config文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%B0%E8%AF%81%E4%B9%A6"><span class="nav-number">4.1.5.</span> <span class="nav-text">查看新证书</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E8%AF%81%E4%B9%A6%E4%B8%BA10%E5%B9%B4%E6%9C%9F"><span class="nav-number">5.</span> <span class="nav-text">更新证书为10年期</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E6%9F%A5%E7%9C%8B"><span class="nav-number">2.</span> <span class="nav-text">证书查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">备份文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8kubeadm%E5%BB%B6%E9%95%BF%E8%AF%81%E4%B9%A6%E4%B8%80%E5%B9%B4"><span class="nav-number">4.</span> <span class="nav-text">使用kubeadm延长证书一年</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#etcd%E5%9C%A8%E9%9B%86%E7%BE%A4%E5%86%85%E9%83%A8"><span class="nav-number">4.1.</span> <span class="nav-text">etcd在集群内部</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%8E%9F%E6%9C%89%E8%AF%81%E4%B9%A6"><span class="nav-number">4.1.1.</span> <span class="nav-text">删除原有证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E8%AF%81%E4%B9%A6%E5%8F%8A%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.2.</span> <span class="nav-text">创建新证书及文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%90%AFkubelet%E5%92%8Cdocker"><span class="nav-number">4.1.3.</span> <span class="nav-text">重启kubelet和docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEkubectl-config%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.4.</span> <span class="nav-text">配置kubectl config文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%B0%E8%AF%81%E4%B9%A6"><span class="nav-number">4.1.5.</span> <span class="nav-text">查看新证书</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">4.2.</span> <span class="nav-text">参考文章</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E8%AF%81%E4%B9%A6%E4%B8%BA10%E5%B9%B4%E6%9C%9F"><span class="nav-number">5.</span> <span class="nav-text">更新证书为10年期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8github%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0"><span class="nav-number">5.1.</span> <span class="nav-text">使用github自动更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%8B%E9%9A%86%E4%BB%A3%E7%A0%81"><span class="nav-number">5.1.1.</span> <span class="nav-text">克隆代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E8%AF%81%E4%B9%A6"><span class="nav-number">5.1.2.</span> <span class="nav-text">更新证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">5.1.3.</span> <span class="nav-text">执行过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%BF%9E%E6%8E%A5"><span class="nav-number">5.2.</span> <span class="nav-text">参考连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E6%BA%90%E4%BB%A3%E7%A0%81%E6%89%8B%E5%8A%A8%E6%9B%B4%E6%96%B0-%E4%B8%8D%E6%8E%A8%E8%8D%90"><span class="nav-number">5.3.</span> <span class="nav-text">编译源代码手动更新-不推荐</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -264,7 +264,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2022-05-09 09:21:22" itemprop="dateCreated datePublished" datetime="2022-05-09T09:21:22+08:00">2022-05-09</time>
+      <time title="创建时间：2022-05-09 09:54:52" itemprop="dateCreated datePublished" datetime="2022-05-09T09:54:52+08:00">2022-05-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -307,14 +307,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.6k</span>
+      <span>4.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -362,14 +362,73 @@
 
 <h3 id="查看新证书"><a href="#查看新证书" class="headerlink" title="查看新证书"></a>查看新证书</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ljl-centos7-m1 kubernetes]# echo | openssl s_client -showcerts -connect 127.0.0.1:6443 -servername api 2&gt;/dev/null | openssl x509 -noout -enddate</span><br><span class="line">notAfter=May  8 15:04:07 2023 GMT</span><br></pre></td></tr></table></figure>
 
-<p>参考文章</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46152207/article/details/109065588?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165172063616782388023503%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=165172063616782388023503&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-109065588.nonecase&utm_term=%E8%BF%87%E6%9C%9F&spm=1018.2226.3001.4450">kubeadm证书/etcd证书过期处理_互联网-小阿宇的博客-CSDN博客_etcd证书过期重新生成分发</a></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46152207/article/details/109065588?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165172063616782388023503%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=165172063616782388023503&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-109065588.nonecase&utm_term=%E8%BF%87%E6%9C%9F&spm=1018.2226.3001.4450">kubeadm证书/etcd证书过期处理_互联网-小阿宇的博客-CSDN博客_etcd证书过期重新生成分发</a></p>
 <p><a target="_blank" rel="noopener" href="https://article.itxueyuan.com/l97byb">k8s集群证书过期（kubeadm 1.10.2 ） (itxueyuan.com)</a></p>
-<h1 id="更新证书为10年期"><a href="#更新证书为10年期" class="headerlink" title="更新证书为10年期"></a>更新证书为10年期</h1><p>参考连接</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hujinzhong/p/14985449.html">kubeadm初始化k8s-延长证书过期时间</a></p>
+<h1 id="更新证书为10年期"><a href="#更新证书为10年期" class="headerlink" title="更新证书为10年期"></a>更新证书为10年期</h1><h2 id="使用github自动更新"><a href="#使用github自动更新" class="headerlink" title="使用github自动更新"></a>使用github自动更新</h2><h3 id="克隆代码"><a href="#克隆代码" class="headerlink" title="克隆代码"></a>克隆代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/yuyicai/update-kube-cert.git</span><br><span class="line"><span class="built_in">cd</span> update-kubeadm-cert</span><br><span class="line">chmod 755 update-kubeadm-cert.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新证书"><a href="#更新证书" class="headerlink" title="更新证书"></a>更新证书</h3><p>如果有多个 master 节点，在每个 master 节点都执行一次</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./update-kubeadm-cert.sh all</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><details>
+  <summary>点击查看完整执行过程</summary>
+  <pre><code> 
+[root@ljl-centos7-m1 update-kube-cert]# ./update-kubeadm-cert.sh all
+CERTIFICATE                                       EXPIRES                       
+/etc/kubernetes/controller-manager.config         May  8 15:04:18 2023 GMT      
+/etc/kubernetes/scheduler.config                  May  8 15:04:19 2023 GMT      
+/etc/kubernetes/admin.config                      May  8 15:04:17 2023 GMT      
+/etc/kubernetes/pki/ca.crt                        May  4 15:08:51 2032 GMT      
+/etc/kubernetes/pki/apiserver.crt                 May  8 15:04:07 2023 GMT      
+/etc/kubernetes/pki/apiserver-kubelet-client.crt  May  8 15:04:08 2023 GMT      
+/etc/kubernetes/pki/front-proxy-ca.crt            May  4 15:08:55 2032 GMT      
+/etc/kubernetes/pki/front-proxy-client.crt        May  8 15:04:14 2023 GMT      
+/etc/kubernetes/pki/etcd/ca.crt                   May  5 15:04:09 2032 GMT      
+/etc/kubernetes/pki/etcd/server.crt               May  8 15:04:10 2023 GMT      
+/etc/kubernetes/pki/etcd/peer.crt                 May  8 15:04:10 2023 GMT      
+/etc/kubernetes/pki/etcd/healthcheck-client.crt   May  8 15:04:11 2023 GMT      
+/etc/kubernetes/pki/apiserver-etcd-client.crt     May  8 15:04:12 2023 GMT      
+[2022-05-09T09:28:14.31+0800][INFO] backup /etc/kubernetes to /etc/kubernetes.old-20220509
+[2022-05-09T09:28:14.32+0800][INFO] updating...
+[2022-05-09T09:28:14.48+0800][INFO] updated /etc/kubernetes/pki/etcd/server.conf
+[2022-05-09T09:28:14.60+0800][INFO] updated /etc/kubernetes/pki/etcd/peer.conf
+[2022-05-09T09:28:14.69+0800][INFO] updated /etc/kubernetes/pki/etcd/healthcheck-client.conf
+[2022-05-09T09:28:14.77+0800][INFO] updated /etc/kubernetes/pki/apiserver-etcd-client.conf
+[2022-05-09T09:28:15.45+0800][INFO] restarted etcd
+[2022-05-09T09:28:15.61+0800][INFO] updated /etc/kubernetes/pki/apiserver.crt
+[2022-05-09T09:28:15.76+0800][INFO] updated /etc/kubernetes/pki/apiserver-kubelet-client.crt
+[2022-05-09T09:28:15.93+0800][INFO] updated /etc/kubernetes/controller-manager.conf
+[2022-05-09T09:28:16.09+0800][INFO] updated /etc/kubernetes/scheduler.conf
+[2022-05-09T09:28:16.23+0800][INFO] updated /etc/kubernetes/admin.conf
+[2022-05-09T09:28:16.26+0800][INFO] backup /root/.kube/config to /root/.kube/config.old-20220509
+[2022-05-09T09:28:16.28+0800][INFO] copy the admin.conf to /root/.kube/config
+[2022-05-09T09:28:16.46+0800][INFO] updated /etc/kubernetes/kubelet.conf
+[2022-05-09T09:28:16.51+0800][INFO] updated /etc/kubernetes/pki/front-proxy-client.crt
+[2022-05-09T09:28:17.83+0800][INFO] restarted apiserver
+[2022-05-09T09:28:18.26+0800][INFO] restarted controller-manager
+[2022-05-09T09:28:18.69+0800][INFO] restarted scheduler
+[2022-05-09T09:28:18.74+0800][INFO] restarted kubelet
+[2022-05-09T09:28:18.75+0800][INFO] done!!!
+CERTIFICATE                                       EXPIRES                       
+/etc/kubernetes/controller-manager.config         May  6 01:28:15 2032 GMT      
+/etc/kubernetes/scheduler.config                  May  6 01:28:16 2032 GMT      
+/etc/kubernetes/admin.config                      May  6 01:28:16 2032 GMT      
+/etc/kubernetes/pki/ca.crt                        May  4 15:08:51 2032 GMT      
+/etc/kubernetes/pki/apiserver.crt                 May  6 01:28:15 2032 GMT      
+/etc/kubernetes/pki/apiserver-kubelet-client.crt  May  6 01:28:15 2032 GMT      
+/etc/kubernetes/pki/front-proxy-ca.crt            May  4 15:08:55 2032 GMT      
+/etc/kubernetes/pki/front-proxy-client.crt        May  6 01:28:16 2032 GMT      
+/etc/kubernetes/pki/etcd/ca.crt                   May  5 15:04:09 2032 GMT      
+/etc/kubernetes/pki/etcd/server.crt               May  6 01:28:14 2032 GMT      
+/etc/kubernetes/pki/etcd/peer.crt                 May  6 01:28:14 2032 GMT      
+/etc/kubernetes/pki/etcd/healthcheck-client.crt   May  6 01:28:14 2032 GMT      
+/etc/kubernetes/pki/apiserver-etcd-client.crt     May  6 01:28:14 2032 GMT      
+  </code></pre>
+</details>
+
+<h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hujinzhong/p/14985449.html">kubeadm初始化k8s-延长证书过期时间</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zsl-find/articles/15465467.html">k8s中证书更新 - 夜辰雪扬 - 博客园 (cnblogs.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/yuyicai/update-kube-cert">github</a></p>
-
+<h2 id="编译源代码手动更新-不推荐"><a href="#编译源代码手动更新-不推荐" class="headerlink" title="编译源代码手动更新-不推荐"></a>编译源代码手动更新-不推荐</h2>
     </div>
 
     
@@ -437,14 +496,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">31k</span>
+    <span title="站点总字数">34k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">28 分钟</span>
+    <span title="站点阅读时长">31 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">
