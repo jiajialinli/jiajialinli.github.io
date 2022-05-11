@@ -38,120 +38,6 @@
       </tags>
   </entry>
   <entry>
-    <title>k8s证书更新</title>
-    <url>/2022/05/09/k8s%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<img src="/2022/05/09/k8s%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/1651979690734.jpg" class="">
-
-<span id="more"></span>
-
-<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ol>
-<li>本篇的底层环境是k8s1.10.1，可以作为版本小于1.15证书更新的参考，高于1.15版本命令有所改变；</li>
-<li>当前的环境是单主节点，需要补充多节点；</li>
-<li>etcd在集群内部还是在集群外部，也是需要考虑的点，一般etcd在集群外部需要单独更新证书；</li>
-<li>当然，我们也可以将证书的期限设置为10年，甚至是永久，从而避免频繁更新证书的麻烦。</li>
-</ol>
-<h1 id="证书查看"><a href="#证书查看" class="headerlink" title="证书查看"></a>证书查看</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 ~]<span class="comment"># openssl x509 -in /etc/kubernetes/pki/apiserver.crt -noout -text |grep &#x27; Not &#x27;</span></span><br><span class="line">            Not Before: May  7 15:08:51 2022 GMT</span><br><span class="line">            Not After : May  7 15:08:52 2023 GMT</span><br></pre></td></tr></table></figure>
-
-<h1 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h1><p>etcd在集群内部</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp -rf /etc/kubernetes /etc/kubernetes.bak</span><br></pre></td></tr></table></figure>
-
-<p>etcd在集群外部</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp -rf /etc/kubernetes /etc/kubernetes.bak &amp;&amp; cp -r /var/lib/etcd /var/lib/etcd.bak</span><br></pre></td></tr></table></figure>
-
-<p>备份kubelet证书文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp -rf /var/lib/kubelet/pki /var/lib/kubelet/pki_back</span><br></pre></td></tr></table></figure>
-
-<h1 id="使用kubeadm延长证书一年"><a href="#使用kubeadm延长证书一年" class="headerlink" title="使用kubeadm延长证书一年"></a>使用kubeadm延长证书一年</h1><h2 id="etcd在集群内部"><a href="#etcd在集群内部" class="headerlink" title="etcd在集群内部"></a>etcd在集群内部</h2><h3 id="删除原有证书"><a href="#删除原有证书" class="headerlink" title="删除原有证书"></a>删除原有证书</h3><blockquote>
-<p>如果kubeadm初始化集群是没有生成config.yaml文件，请先执行如下命令生成<code>kubeadm config view &gt; config.yaml</code></p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/kubernetes/</span><br><span class="line">rm -f pki/apiserver*</span><br><span class="line">rm -f pki/front-proxy-client.*</span><br><span class="line">rm -f ./admin.conf</span><br><span class="line">rm -f ./kubelet.conf</span><br><span class="line">rm -f ./controller-manager.conf</span><br><span class="line">rm -f ./scheduler.conf</span><br><span class="line">rm -f /etc/kubernetes/pki/etcd/*</span><br><span class="line">rm -rf /var/lib/kubelet/pki/*</span><br></pre></td></tr></table></figure>
-
-<h3 id="创建新证书及文件"><a href="#创建新证书及文件" class="headerlink" title="创建新证书及文件"></a>创建新证书及文件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm alpha phase certs all --config config.yaml</span><br><span class="line">kubeadm alpha phase kubeconfig all --config config.yaml</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>config.yaml,文件为kubeadm init时的文件，如果你是用参数直接初始化的，多半没有这个文件，可以用以下命令生成<code>kubeadm config view &gt; config.yaml</code></p>
-</blockquote>
-<h3 id="重启kubelet和docker"><a href="#重启kubelet和docker" class="headerlink" title="重启kubelet和docker"></a>重启<code>kubelet</code>和<code>docker</code></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart kubelet &amp;&amp; systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置kubectl-config文件"><a href="#配置kubectl-config文件" class="headerlink" title="配置kubectl config文件"></a>配置kubectl config文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 备份及覆盖（注意文件权限）</span><br><span class="line">mv ~/.kube ~/.kube_back</span><br><span class="line">cp -rfp /etc/kubernetes/admin.conf ~/.kube/config</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看新证书"><a href="#查看新证书" class="headerlink" title="查看新证书"></a>查看新证书</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 kubernetes]# echo | openssl s_client -showcerts -connect 127.0.0.1:6443 -servername api 2&gt;/dev/null | openssl x509 -noout -enddate</span><br><span class="line">notAfter=May  8 15:04:07 2023 GMT</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/weixin_46152207/article/details/109065588?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165172063616782388023503%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=165172063616782388023503&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-109065588.nonecase&utm_term=%E8%BF%87%E6%9C%9F&spm=1018.2226.3001.4450">kubeadm证书/etcd证书过期处理_互联网-小阿宇的博客-CSDN博客_etcd证书过期重新生成分发</a></p>
-<p><a href="https://article.itxueyuan.com/l97byb">k8s集群证书过期（kubeadm 1.10.2 ） (itxueyuan.com)</a></p>
-<h1 id="更新证书为10年期"><a href="#更新证书为10年期" class="headerlink" title="更新证书为10年期"></a>更新证书为10年期</h1><h2 id="使用github自动更新"><a href="#使用github自动更新" class="headerlink" title="使用github自动更新"></a>使用github自动更新</h2><h3 id="克隆代码"><a href="#克隆代码" class="headerlink" title="克隆代码"></a>克隆代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/yuyicai/update-kube-cert.git</span><br><span class="line"><span class="built_in">cd</span> update-kubeadm-cert</span><br><span class="line">chmod 755 update-kubeadm-cert.sh</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新证书"><a href="#更新证书" class="headerlink" title="更新证书"></a>更新证书</h3><p>如果有多个 master 节点，在每个 master 节点都执行一次</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./update-kubeadm-cert.sh all</span><br></pre></td></tr></table></figure>
-
-<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><details>
-  <summary>点击查看完整执行过程</summary>
-  <pre><code> 
-[root@ljl-centos7-m1 update-kube-cert]# ./update-kubeadm-cert.sh all
-CERTIFICATE                                       EXPIRES                       
-/etc/kubernetes/controller-manager.config         May  8 15:04:18 2023 GMT      
-/etc/kubernetes/scheduler.config                  May  8 15:04:19 2023 GMT      
-/etc/kubernetes/admin.config                      May  8 15:04:17 2023 GMT      
-/etc/kubernetes/pki/ca.crt                        May  4 15:08:51 2032 GMT      
-/etc/kubernetes/pki/apiserver.crt                 May  8 15:04:07 2023 GMT      
-/etc/kubernetes/pki/apiserver-kubelet-client.crt  May  8 15:04:08 2023 GMT      
-/etc/kubernetes/pki/front-proxy-ca.crt            May  4 15:08:55 2032 GMT      
-/etc/kubernetes/pki/front-proxy-client.crt        May  8 15:04:14 2023 GMT      
-/etc/kubernetes/pki/etcd/ca.crt                   May  5 15:04:09 2032 GMT      
-/etc/kubernetes/pki/etcd/server.crt               May  8 15:04:10 2023 GMT      
-/etc/kubernetes/pki/etcd/peer.crt                 May  8 15:04:10 2023 GMT      
-/etc/kubernetes/pki/etcd/healthcheck-client.crt   May  8 15:04:11 2023 GMT      
-/etc/kubernetes/pki/apiserver-etcd-client.crt     May  8 15:04:12 2023 GMT      
-[2022-05-09T09:28:14.31+0800][INFO] backup /etc/kubernetes to /etc/kubernetes.old-20220509
-[2022-05-09T09:28:14.32+0800][INFO] updating...
-[2022-05-09T09:28:14.48+0800][INFO] updated /etc/kubernetes/pki/etcd/server.conf
-[2022-05-09T09:28:14.60+0800][INFO] updated /etc/kubernetes/pki/etcd/peer.conf
-[2022-05-09T09:28:14.69+0800][INFO] updated /etc/kubernetes/pki/etcd/healthcheck-client.conf
-[2022-05-09T09:28:14.77+0800][INFO] updated /etc/kubernetes/pki/apiserver-etcd-client.conf
-[2022-05-09T09:28:15.45+0800][INFO] restarted etcd
-[2022-05-09T09:28:15.61+0800][INFO] updated /etc/kubernetes/pki/apiserver.crt
-[2022-05-09T09:28:15.76+0800][INFO] updated /etc/kubernetes/pki/apiserver-kubelet-client.crt
-[2022-05-09T09:28:15.93+0800][INFO] updated /etc/kubernetes/controller-manager.conf
-[2022-05-09T09:28:16.09+0800][INFO] updated /etc/kubernetes/scheduler.conf
-[2022-05-09T09:28:16.23+0800][INFO] updated /etc/kubernetes/admin.conf
-[2022-05-09T09:28:16.26+0800][INFO] backup /root/.kube/config to /root/.kube/config.old-20220509
-[2022-05-09T09:28:16.28+0800][INFO] copy the admin.conf to /root/.kube/config
-[2022-05-09T09:28:16.46+0800][INFO] updated /etc/kubernetes/kubelet.conf
-[2022-05-09T09:28:16.51+0800][INFO] updated /etc/kubernetes/pki/front-proxy-client.crt
-[2022-05-09T09:28:17.83+0800][INFO] restarted apiserver
-[2022-05-09T09:28:18.26+0800][INFO] restarted controller-manager
-[2022-05-09T09:28:18.69+0800][INFO] restarted scheduler
-[2022-05-09T09:28:18.74+0800][INFO] restarted kubelet
-[2022-05-09T09:28:18.75+0800][INFO] done!!!
-CERTIFICATE                                       EXPIRES                       
-/etc/kubernetes/controller-manager.config         May  6 01:28:15 2032 GMT      
-/etc/kubernetes/scheduler.config                  May  6 01:28:16 2032 GMT      
-/etc/kubernetes/admin.config                      May  6 01:28:16 2032 GMT      
-/etc/kubernetes/pki/ca.crt                        May  4 15:08:51 2032 GMT      
-/etc/kubernetes/pki/apiserver.crt                 May  6 01:28:15 2032 GMT      
-/etc/kubernetes/pki/apiserver-kubelet-client.crt  May  6 01:28:15 2032 GMT      
-/etc/kubernetes/pki/front-proxy-ca.crt            May  4 15:08:55 2032 GMT      
-/etc/kubernetes/pki/front-proxy-client.crt        May  6 01:28:16 2032 GMT      
-/etc/kubernetes/pki/etcd/ca.crt                   May  5 15:04:09 2032 GMT      
-/etc/kubernetes/pki/etcd/server.crt               May  6 01:28:14 2032 GMT      
-/etc/kubernetes/pki/etcd/peer.crt                 May  6 01:28:14 2032 GMT      
-/etc/kubernetes/pki/etcd/healthcheck-client.crt   May  6 01:28:14 2032 GMT      
-/etc/kubernetes/pki/apiserver-etcd-client.crt     May  6 01:28:14 2032 GMT      
-  </code></pre>
-</details>
-
-<h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><p><a href="https://www.cnblogs.com/hujinzhong/p/14985449.html">kubeadm初始化k8s-延长证书过期时间</a></p>
-<p><a href="https://www.cnblogs.com/zsl-find/articles/15465467.html">k8s中证书更新 - 夜辰雪扬 - 博客园 (cnblogs.com)</a></p>
-<p><a href="https://github.com/yuyicai/update-kube-cert">github</a></p>
-<h2 id="编译源代码手动更新-不推荐"><a href="#编译源代码手动更新-不推荐" class="headerlink" title="编译源代码手动更新-不推荐"></a>编译源代码手动更新-不推荐</h2>]]></content>
-      <categories>
-        <category>k8s</category>
-      </categories>
-      <tags>
-        <tag>cert</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>k8s1.10.1实验环境搭建</title>
     <url>/2022/05/07/k8s1.10.1%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<img src="/2022/05/07/k8s1.10.1%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/5492838f5a3240508.jpg" class="">
@@ -272,6 +158,356 @@ CERTIFICATE                                       EXPIRES
       </categories>
       <tags>
         <tag>kubeadm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>k8s证书更新</title>
+    <url>/2022/05/09/k8s%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/</url>
+    <content><![CDATA[<img src="/2022/05/09/k8s%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/1651979690734.jpg" class="">
+
+<span id="more"></span>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ol>
+<li>本篇的底层环境是k8s1.10.1，可以作为版本小于1.15证书更新的参考，高于1.15版本命令有所改变；</li>
+<li>当前的环境是单主节点，需要补充多节点；</li>
+<li>etcd在集群内部还是在集群外部，也是需要考虑的点，一般etcd在集群外部需要单独更新证书；</li>
+<li>当然，我们也可以将证书的期限设置为10年，甚至是永久，从而避免频繁更新证书的麻烦。</li>
+</ol>
+<h1 id="证书查看"><a href="#证书查看" class="headerlink" title="证书查看"></a>证书查看</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 ~]<span class="comment"># openssl x509 -in /etc/kubernetes/pki/apiserver.crt -noout -text |grep &#x27; Not &#x27;</span></span><br><span class="line">            Not Before: May  7 15:08:51 2022 GMT</span><br><span class="line">            Not After : May  7 15:08:52 2023 GMT</span><br></pre></td></tr></table></figure>
+
+<h1 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h1><p>etcd在集群内部</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp -rf /etc/kubernetes /etc/kubernetes.bak</span><br></pre></td></tr></table></figure>
+
+<p>etcd在集群外部</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp -rf /etc/kubernetes /etc/kubernetes.bak &amp;&amp; cp -r /var/lib/etcd /var/lib/etcd.bak</span><br></pre></td></tr></table></figure>
+
+<p>备份kubelet证书文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp -rf /var/lib/kubelet/pki /var/lib/kubelet/pki_back</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用kubeadm延长证书一年"><a href="#使用kubeadm延长证书一年" class="headerlink" title="使用kubeadm延长证书一年"></a>使用kubeadm延长证书一年</h1><h2 id="etcd在集群内部"><a href="#etcd在集群内部" class="headerlink" title="etcd在集群内部"></a>etcd在集群内部</h2><h3 id="删除原有证书"><a href="#删除原有证书" class="headerlink" title="删除原有证书"></a>删除原有证书</h3><blockquote>
+<p>如果kubeadm初始化集群是没有生成config.yaml文件，请先执行如下命令生成<code>kubeadm config view &gt; config.yaml</code></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/kubernetes/</span><br><span class="line">rm -f pki/apiserver*</span><br><span class="line">rm -f pki/front-proxy-client.*</span><br><span class="line">rm -f ./admin.conf</span><br><span class="line">rm -f ./kubelet.conf</span><br><span class="line">rm -f ./controller-manager.conf</span><br><span class="line">rm -f ./scheduler.conf</span><br><span class="line">rm -f /etc/kubernetes/pki/etcd/*</span><br><span class="line">rm -rf /var/lib/kubelet/pki/*</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建新证书及文件"><a href="#创建新证书及文件" class="headerlink" title="创建新证书及文件"></a>创建新证书及文件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm alpha phase certs all --config config.yaml</span><br><span class="line">kubeadm alpha phase kubeconfig all --config config.yaml</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>config.yaml,文件为kubeadm init时的文件，如果你是用参数直接初始化的，多半没有这个文件，可以用以下命令生成<code>kubeadm config view &gt; config.yaml</code></p>
+</blockquote>
+<h3 id="重启kubelet和docker"><a href="#重启kubelet和docker" class="headerlink" title="重启kubelet和docker"></a>重启<code>kubelet</code>和<code>docker</code></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart kubelet &amp;&amp; systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置kubectl-config文件"><a href="#配置kubectl-config文件" class="headerlink" title="配置kubectl config文件"></a>配置kubectl config文件</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 备份及覆盖（注意文件权限）</span><br><span class="line">mv ~/.kube ~/.kube_back</span><br><span class="line">cp -rfp /etc/kubernetes/admin.conf ~/.kube/config</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看新证书"><a href="#查看新证书" class="headerlink" title="查看新证书"></a>查看新证书</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 kubernetes]# echo | openssl s_client -showcerts -connect 127.0.0.1:6443 -servername api 2&gt;/dev/null | openssl x509 -noout -enddate</span><br><span class="line">notAfter=May  8 15:04:07 2023 GMT</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/weixin_46152207/article/details/109065588?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165172063616782388023503%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=165172063616782388023503&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-109065588.nonecase&utm_term=%E8%BF%87%E6%9C%9F&spm=1018.2226.3001.4450">kubeadm证书/etcd证书过期处理_互联网-小阿宇的博客-CSDN博客_etcd证书过期重新生成分发</a></p>
+<p><a href="https://article.itxueyuan.com/l97byb">k8s集群证书过期（kubeadm 1.10.2 ） (itxueyuan.com)</a></p>
+<h1 id="更新证书为10年期"><a href="#更新证书为10年期" class="headerlink" title="更新证书为10年期"></a>更新证书为10年期</h1><h2 id="使用github自动更新"><a href="#使用github自动更新" class="headerlink" title="使用github自动更新"></a>使用github自动更新</h2><h3 id="克隆代码"><a href="#克隆代码" class="headerlink" title="克隆代码"></a>克隆代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/yuyicai/update-kube-cert.git</span><br><span class="line"><span class="built_in">cd</span> update-kubeadm-cert</span><br><span class="line">chmod 755 update-kubeadm-cert.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新证书"><a href="#更新证书" class="headerlink" title="更新证书"></a>更新证书</h3><p>如果有多个 master 节点，在每个 master 节点都执行一次</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./update-kubeadm-cert.sh all</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><details>
+  <summary>点击查看完整执行过程</summary>
+  <pre><code> 
+[root@ljl-centos7-m1 update-kube-cert]# ./update-kubeadm-cert.sh all
+CERTIFICATE                                       EXPIRES                       
+/etc/kubernetes/controller-manager.config         May  8 15:04:18 2023 GMT      
+/etc/kubernetes/scheduler.config                  May  8 15:04:19 2023 GMT      
+/etc/kubernetes/admin.config                      May  8 15:04:17 2023 GMT      
+/etc/kubernetes/pki/ca.crt                        May  4 15:08:51 2032 GMT      
+/etc/kubernetes/pki/apiserver.crt                 May  8 15:04:07 2023 GMT      
+/etc/kubernetes/pki/apiserver-kubelet-client.crt  May  8 15:04:08 2023 GMT      
+/etc/kubernetes/pki/front-proxy-ca.crt            May  4 15:08:55 2032 GMT      
+/etc/kubernetes/pki/front-proxy-client.crt        May  8 15:04:14 2023 GMT      
+/etc/kubernetes/pki/etcd/ca.crt                   May  5 15:04:09 2032 GMT      
+/etc/kubernetes/pki/etcd/server.crt               May  8 15:04:10 2023 GMT      
+/etc/kubernetes/pki/etcd/peer.crt                 May  8 15:04:10 2023 GMT      
+/etc/kubernetes/pki/etcd/healthcheck-client.crt   May  8 15:04:11 2023 GMT      
+/etc/kubernetes/pki/apiserver-etcd-client.crt     May  8 15:04:12 2023 GMT      
+[2022-05-09T09:28:14.31+0800][INFO] backup /etc/kubernetes to /etc/kubernetes.old-20220509
+[2022-05-09T09:28:14.32+0800][INFO] updating...
+[2022-05-09T09:28:14.48+0800][INFO] updated /etc/kubernetes/pki/etcd/server.conf
+[2022-05-09T09:28:14.60+0800][INFO] updated /etc/kubernetes/pki/etcd/peer.conf
+[2022-05-09T09:28:14.69+0800][INFO] updated /etc/kubernetes/pki/etcd/healthcheck-client.conf
+[2022-05-09T09:28:14.77+0800][INFO] updated /etc/kubernetes/pki/apiserver-etcd-client.conf
+[2022-05-09T09:28:15.45+0800][INFO] restarted etcd
+[2022-05-09T09:28:15.61+0800][INFO] updated /etc/kubernetes/pki/apiserver.crt
+[2022-05-09T09:28:15.76+0800][INFO] updated /etc/kubernetes/pki/apiserver-kubelet-client.crt
+[2022-05-09T09:28:15.93+0800][INFO] updated /etc/kubernetes/controller-manager.conf
+[2022-05-09T09:28:16.09+0800][INFO] updated /etc/kubernetes/scheduler.conf
+[2022-05-09T09:28:16.23+0800][INFO] updated /etc/kubernetes/admin.conf
+[2022-05-09T09:28:16.26+0800][INFO] backup /root/.kube/config to /root/.kube/config.old-20220509
+[2022-05-09T09:28:16.28+0800][INFO] copy the admin.conf to /root/.kube/config
+[2022-05-09T09:28:16.46+0800][INFO] updated /etc/kubernetes/kubelet.conf
+[2022-05-09T09:28:16.51+0800][INFO] updated /etc/kubernetes/pki/front-proxy-client.crt
+[2022-05-09T09:28:17.83+0800][INFO] restarted apiserver
+[2022-05-09T09:28:18.26+0800][INFO] restarted controller-manager
+[2022-05-09T09:28:18.69+0800][INFO] restarted scheduler
+[2022-05-09T09:28:18.74+0800][INFO] restarted kubelet
+[2022-05-09T09:28:18.75+0800][INFO] done!!!
+CERTIFICATE                                       EXPIRES                       
+/etc/kubernetes/controller-manager.config         May  6 01:28:15 2032 GMT      
+/etc/kubernetes/scheduler.config                  May  6 01:28:16 2032 GMT      
+/etc/kubernetes/admin.config                      May  6 01:28:16 2032 GMT      
+/etc/kubernetes/pki/ca.crt                        May  4 15:08:51 2032 GMT      
+/etc/kubernetes/pki/apiserver.crt                 May  6 01:28:15 2032 GMT      
+/etc/kubernetes/pki/apiserver-kubelet-client.crt  May  6 01:28:15 2032 GMT      
+/etc/kubernetes/pki/front-proxy-ca.crt            May  4 15:08:55 2032 GMT      
+/etc/kubernetes/pki/front-proxy-client.crt        May  6 01:28:16 2032 GMT      
+/etc/kubernetes/pki/etcd/ca.crt                   May  5 15:04:09 2032 GMT      
+/etc/kubernetes/pki/etcd/server.crt               May  6 01:28:14 2032 GMT      
+/etc/kubernetes/pki/etcd/peer.crt                 May  6 01:28:14 2032 GMT      
+/etc/kubernetes/pki/etcd/healthcheck-client.crt   May  6 01:28:14 2032 GMT      
+/etc/kubernetes/pki/apiserver-etcd-client.crt     May  6 01:28:14 2032 GMT      
+  </code></pre>
+</details>
+
+<h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><p><a href="https://www.cnblogs.com/hujinzhong/p/14985449.html">kubeadm初始化k8s-延长证书过期时间</a></p>
+<p><a href="https://www.cnblogs.com/zsl-find/articles/15465467.html">k8s中证书更新 - 夜辰雪扬 - 博客园 (cnblogs.com)</a></p>
+<p><a href="https://github.com/yuyicai/update-kube-cert">github</a></p>
+<h2 id="编译源代码手动更新-不推荐"><a href="#编译源代码手动更新-不推荐" class="headerlink" title="编译源代码手动更新-不推荐"></a>编译源代码手动更新-不推荐</h2>]]></content>
+      <categories>
+        <category>k8s</category>
+      </categories>
+      <tags>
+        <tag>cert</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>k8s生产环境高可用部署</title>
+    <url>/2022/05/11/k8s1-10-1%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<img src="/2022/05/11/k8s1-10-1%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/1651979590369.jpg" class="">
+
+<span id="more"></span>
+
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>​        单主节点集群大致足以供开发和测试环境使用，节点参数调整请看这里<a href="#">Post not found: 查看单集群部署 k8s1.10.1实验环境搭建</a>。</p>
+<p>​        对于生产环境，您需要考虑集群的高可用性。如果关键组件（例如 kube-apiserver、kube-scheduler 和 kube-controller-manager）都在同一个主节点上运行，一旦主节点宕机，Kubernetes 将不可用。因此，需要为多个主节点配置负载均衡器，以创建高可用集群。您可以使用任意云负载均衡器或者任意硬件负载均衡器（例如 F5）。此外，也可以使用 Keepalived 和 <a href="https://www.haproxy.com/">HAproxy</a>，或者 Nginx 来创建高可用集群。</p>
+<p>​        本文采用Keepalived和HAproxy进行部署，经济性好，但是性能相较于硬件负载均衡器有所降低，如何取舍取决与企业自身条件。</p>
+<h2 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h2><table>
+<thead>
+<tr>
+<th>身份</th>
+<th>名称</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>master1</td>
+<td>ljl-centos7-m1</td>
+<td>172.16.248.210</td>
+</tr>
+<tr>
+<td>master2</td>
+<td>ljl-centos7-m2</td>
+<td>172.16.248.213</td>
+</tr>
+<tr>
+<td>master3</td>
+<td>ljl-centos7-m3</td>
+<td>172.16.248.214</td>
+</tr>
+<tr>
+<td>node1</td>
+<td>ljl-centos7-n1</td>
+<td>172.16.248.211</td>
+</tr>
+<tr>
+<td>node2</td>
+<td>ljl-centos7-n2</td>
+<td>172.16.248.212</td>
+</tr>
+</tbody></table>
+<h1 id="安装-Keepalived-和-HAproxy"><a href="#安装-Keepalived-和-HAproxy" class="headerlink" title="安装 Keepalived 和 HAproxy"></a>安装 Keepalived 和 HAproxy</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install keepalived haproxy psmisc -y</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/haproxy/haproxy.cfg</span><br></pre></td></tr></table></figure>
+
+<details>
+  <summary>haproxy.cfg</summary>
+  <pre><code> 
+global
+    log /dev/log  local0 warning
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+    stats socket /var/lib/haproxy/stats
+defaults
+  log global
+  option  httplog
+  option  dontlognull
+        timeout connect 5000
+        timeout client 50000
+        timeout server 50000
+frontend kube-apiserver
+  bind *:9443
+  mode tcp
+  option tcplog
+  default_backend kube-apiserver
+backend kube-apiserver
+    mode tcp
+    option tcplog
+    option tcp-check
+    balance roundrobin
+    default-server inter 10s downinter 5s rise 2 fall 2 slowstart 60s maxconn 250 maxqueue 256 weight 100
+    server ljl-centos7-m1 172.16.248.210:6443 check 
+    server ljl-centos7-m2 172.16.248.213:6443 check 
+    server ljl-centos7-m3 172.16.248.214:6443 check  
+  </code></pre>
+</details>
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl enable haproxy</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /etc/keepalived/keepalived.conf</span><br></pre></td></tr></table></figure>
+
+<details>
+  <summary>keepalived.conf</summary>
+  <pre><code>
+global_defs &#123;
+  notification_email &#123;
+  &#125;
+  router_id LVS_DEVEL
+  vrrp_skip_check_adv_addr
+  vrrp_garp_interval 0
+  vrrp_gna_interval 0
+&#125;
+vrrp_script chk_haproxy &#123;
+  script "killall -0 haproxy"
+  interval 2
+  weight 2
+&#125;
+vrrp_instance haproxy-vip &#123;
+  state BACKUP
+  priority 100
+  interface ens160                   
+  virtual_router_id 60
+  advert_int 1
+  authentication &#123;
+    auth_type PASS
+    auth_pass 1111
+  &#125;
+  unicast_src_ip 172.16.248.210
+  unicast_peer &#123;
+    172.16.248.213
+    172.16.248.214
+  &#125;
+  virtual_ipaddress &#123;
+    172.16.248.221/24
+  &#125;
+  track_script &#123;
+    chk_haproxy
+  &#125;
+&#125;
+  </code></pre>
+</details>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl enable keepalived</span><br></pre></td></tr></table></figure>
+
+<h1 id="高可用etcd集群部署"><a href="#高可用etcd集群部署" class="headerlink" title="高可用etcd集群部署"></a>高可用etcd集群部署</h1><h2 id="创建自签名CA根证书"><a href="#创建自签名CA根证书" class="headerlink" title="创建自签名CA根证书"></a>创建自签名CA根证书</h2><p>CA证书的制作可以使用openssl、easyrsa、cfssl等工具完成</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p /etc/kubernetes/pki/etcd &amp;&amp; cd /etc/kubernetes/pki/etcd</span><br><span class="line">openssl genrsa -out ca.key 2048</span><br><span class="line">openssl req -x509 -new -nodes -key ca.key -subj &quot;/CN=172.16.248.210&quot; -days 36500  -out ca.crt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>◎ -subj：“/CN”的值为Master主机名或IP地址。<br>◎ -days：设置证书的有效期。</p>
+</blockquote>
+<h2 id="创建etcd服务端CA"><a href="#创建etcd服务端CA" class="headerlink" title="创建etcd服务端CA"></a>创建etcd服务端CA</h2><p>先创建一个x509 v3配置文件etcd_ssl.cnf，其中subjectAltName参数（alt_names）包括所有etcd主机的IP地址</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;./etcd_ssl.cnf</span><br><span class="line">[ req]</span><br><span class="line">req_extensions = v3_req</span><br><span class="line">distinguished_name = req_distinguished_name</span><br><span class="line"></span><br><span class="line">[ req_distinguished_name ]</span><br><span class="line"></span><br><span class="line">[ v3_req ]</span><br><span class="line">basicConstraints = CA:FALSE</span><br><span class="line">keyUsage = nonRepudiation,digitalSignature,keyEncipherment</span><br><span class="line">subjectAltName = @alt_names </span><br><span class="line"></span><br><span class="line">[ alt_names ]</span><br><span class="line">IP.1 = 172.16.248.210</span><br><span class="line">IP.2 = 172.16.248.213</span><br><span class="line">IP.3 = 172.16.248.214</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成etcd服务端证书"><a href="#生成etcd服务端证书" class="headerlink" title="生成etcd服务端证书"></a>生成etcd服务端证书</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out server.key 2048 </span><br><span class="line">openssl req -new -key server.key -config etcd_ssl.cnf -subj &quot;/CN=etcd-server&quot; -out etcd_server.csr </span><br><span class="line">openssl x509 -req -in etcd_server.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -days 36500 -extensions v3_req -extfile etcd_ssl.cnf -out server.crt</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成etcd客户端证书"><a href="#生成etcd客户端证书" class="headerlink" title="生成etcd客户端证书"></a>生成etcd客户端证书</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out peer.key 2048 </span><br><span class="line">openssl req -new -key peer.key -config etcd_ssl.cnf -subj &quot;/CN=etcd-client&quot; -out etcd_peer.csr </span><br><span class="line">openssl x509 -req -in etcd_peer.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -days 36500 -extensions v3_req -extfile etcd_ssl.cnf -out peer.crt</span><br></pre></td></tr></table></figure>
+
+<p>将所有证书拷贝到其他节点</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp -r /etc/kubernetes/pki/etcd 172.16.248.213:/etc/kubernetes/pki</span><br><span class="line">scp -r /etc/kubernetes/pki/etcd 172.16.248.214:/etc/kubernetes/pki</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装etcd"><a href="#安装etcd" class="headerlink" title="安装etcd"></a>安装etcd</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export ETCD_VERSION=v3.1.12</span><br><span class="line">curl -sSL https://github.com/coreos/etcd/releases/download/$&#123;ETCD_VERSION&#125;/etcd-$&#123;ETCD_VERSION&#125;-linux-amd64.tar.gz | tar -xzv --strip-components=1 -C /usr/local/bin/</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置systemd服务"><a href="#配置systemd服务" class="headerlink" title="配置systemd服务"></a>配置systemd服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p /var/lib/etcd</span><br><span class="line">cat &lt;&lt;EOF &gt;/usr/lib/systemd/system/etcd.service</span><br><span class="line">[Unit]</span><br><span class="line">Description=Etcd Server</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line">Documentation=https://github.com/coreos</span><br><span class="line"> </span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">WorkingDirectory=/var/lib/etcd/</span><br><span class="line">ExecStart=/usr/local/bin/etcd   \</span><br><span class="line">    --name ljl-centos7-m3   \</span><br><span class="line">    --cert-file=/etc/kubernetes/pki/etcd/server.crt   \</span><br><span class="line">    --key-file=/etc/kubernetes/pki/etcd/server.key   \</span><br><span class="line">    --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt   \</span><br><span class="line">    --peer-key-file=/etc/kubernetes/pki/etcd/peer.key   \</span><br><span class="line">    --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt   \</span><br><span class="line">    --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt   \</span><br><span class="line">    --initial-advertise-peer-urls https://172.16.248.214:2380   \</span><br><span class="line">    --listen-peer-urls https://172.16.248.214:2380   \</span><br><span class="line">    --listen-client-urls https://172.16.248.214:2379,http://127.0.0.1:2379   \</span><br><span class="line">    --advertise-client-urls https://172.16.248.214:2379   \</span><br><span class="line">    --initial-cluster-token etcd-cluster-0   \</span><br><span class="line">    --initial-cluster ljl-centos7-m1=https://172.16.248.210:2380,ljl-centos7-m2=https://172.16.248.213:2380,ljl-centos7-m3=https://172.16.248.214:2380   \</span><br><span class="line">    --initial-cluster-state new   \</span><br><span class="line">    --client-cert-auth=true   \</span><br><span class="line">    --peer-client-cert-auth=true   \</span><br><span class="line">    --data-dir=/var/lib/etcd</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"> </span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>如果你的主机名和ip跟教程的不一样，请确保更换–name与相应的IPv4地址。此外，请确保你更换的每台机器的主机名，能够使用DNS访问，或确保添加记录/etc/hosts；</li>
+<li>指定 etcd 的工作目录和数据目录为 /var/lib/etcd，需在启动服务前创建这个目录；</li>
+<li>为了保证通信安全，需要指定 etcd 的公私钥(cert-file和key-file)、Peers 通信的公私钥和 CA 证书(peer-cert-file、peer-key-file、peer-trusted-ca-file)、客户端的CA证书（trusted-ca-file）；</li>
+</ul>
+</blockquote>
+<p>第二种方法</p>
+<details>
+  <summary>点击展开</summary>
+  <pre><code> 
+cat <<EOF >/usr/lib/systemd/system/etcd.service
+[Unit] 
+Dscriptiontd=key-valuestore 
+Documentation=https://github.com/etcd-io/etcd After=network.target 
+[Service] 
+EnvironmentFile=/etc/etcd/etcd.conf 
+ExecStart=/usr/local/bin/etcd
+Restart=always 
+[Install] 
+WantedBy=multi-user.target
+EOF
+&nbsp;
+mkdir /etc/etcd
+cat <<EOF >/etc/etcd/etcd.conf
+ETCD_NAME=ljl-centos7-m3
+ETCD_DATA_DIR=/etc/etcd/data 
+ETCD_CERT_FILE=/etc/etcd/pki/etcd_server.crt 
+ETCD_KEY_FILE=/etc/etcd/pki/etcd_server.key 
+ETCD_TRUSTED_CA_FILE=/etc/kubernetes/pki/ca.crt
+ETCD_CLIENT_CERT_AUTH=true 
+ETCD_LISTEN_CLIENT_URLS=https://172.16.248.214:2379
+ETCD_ADVERTISE_CLIENT_URLS=https://172.16.248.214:2379
+ETCD_PEER_CERT_FILE=/etc/etcd/pki/etcd_server.crt 
+ETCD_PEER_KEY_FILE=/etc/etcd/pki/etcd_server.key 
+ETCD_PEER_TRUSTED_CA_FILE=/etc/kubernetes/pki/ca.crt 
+ETCD_LISTEN_PEER_URLS=https://172.16.248.214:2380 
+ETCD_INITIAL_ADVERTISE_PEER_URLS=https://172.16.248.214:2380 ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster 
+ETCD_INITIAL_CLUSTER="ljl-centos7-m1 =https://172.16.248.210:2380,ljl-centos7-m2=https://172.16.248.213:2380,ljl-centos7-m3=https:/172.16.248.214:2380"
+EOF
+  </code></pre>
+</details>
+### 启动服务
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable etcd --now</span><br></pre></td></tr></table></figure>
+
+<h3 id="健康检查"><a href="#健康检查" class="headerlink" title="健康检查"></a>健康检查</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 ~]<span class="comment"># etcdctl -endpoints=https://172.16.248.210:2379,https://172.16.248.213:2379,https://172.16.248.214:2379 -ca-file=/etc/kubernetes/pki/etcd/ca.crt -cert-file=/etc/kubernetes/pki/etcd/server.crt -key-file=/etc/kubernetes/pki/etcd/server.key cluster-health</span></span><br><span class="line">2022-05-10 10:49:25.457174 I | warning: ignoring ServerName <span class="keyword">for</span> user-provided CA <span class="keyword">for</span> backwards compatibility is deprecated</span><br><span class="line">2022-05-10 10:49:25.458542 I | warning: ignoring ServerName <span class="keyword">for</span> user-provided CA <span class="keyword">for</span> backwards compatibility is deprecated</span><br><span class="line">member 71aad14d35084bfd is healthy: got healthy result from https://172.16.248.213:2379</span><br><span class="line">member 77254e7dcb3087cd is healthy: got healthy result from https://172.16.248.210:2379</span><br><span class="line">member c2d8166cb1fd5f88 is healthy: got healthy result from https://172.16.248.214:2379</span><br><span class="line">cluster is healthy</span><br><span class="line">[root@ljl-cnetos7-m2 ~]<span class="comment"># curl -L http://127.0.0.1:2379/health</span></span><br><span class="line">&#123;<span class="string">&quot;health&quot;</span>: <span class="string">&quot;true&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="初始化集群"><a href="#初始化集群" class="headerlink" title="初始化集群"></a>初始化集群</h1><h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><pre><code>    按单主节点模式，设备参数调整完毕，软件docker、kubeadm、kubelet、kubectl安装完毕。
+</code></pre>
+<h2 id="初始化第一个master"><a href="#初始化第一个master" class="headerlink" title="初始化第一个master"></a>初始化第一个master</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; config.yaml </span><br><span class="line">apiVersion: kubeadm.k8s.io/v1alpha1</span><br><span class="line">kind: MasterConfiguration</span><br><span class="line">etcd:</span><br><span class="line">  endpoints:</span><br><span class="line">  - https://172.16.248.210:2379</span><br><span class="line">  - https://172.16.248.213:2379</span><br><span class="line">  - https://172.16.248.214:2379</span><br><span class="line">  caFile: /etc/kubernetes/pki/ca.crt</span><br><span class="line">  certFile: /etc/kubernetes/pki/etcd/server.crt</span><br><span class="line">  keyFile: /etc/kubernetes/pki/etcd/server.key</span><br><span class="line">  dataDir: /var/lib/etcd</span><br><span class="line">networking:</span><br><span class="line">  podSubnet: 10.244.0.0/16</span><br><span class="line">kubernetesVersion: 1.10.1</span><br><span class="line">api:</span><br><span class="line">  advertiseAddress: &quot;172.16.248.210&quot;</span><br><span class="line">  #advertiseAddress: &quot;172.16.248.221:9443&quot;</span><br><span class="line">  #这里应该写每个主机的IP地址，写负载均衡器地址会出问题</span><br><span class="line">#token: &quot;b99a00.a144ef80536d4344&quot;</span><br><span class="line">#tokenTTL: &quot;0s&quot;	## token 永不失效</span><br><span class="line">apiServerCertSANs:</span><br><span class="line">- ljl-centos7-m1</span><br><span class="line">- ljl-centos7-m2</span><br><span class="line">- ljl-centos7-m3</span><br><span class="line">- 172.16.248.210</span><br><span class="line">- 172.16.248.213</span><br><span class="line">- 172.16.248.214</span><br><span class="line">- 172.16.248.221</span><br><span class="line">featureGates:</span><br><span class="line">  CoreDNS: true</span><br><span class="line">#imageRepository: &quot;registry.cn-hangzhou.aliyuncs.com/k8sth&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm init --config config.yaml </span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化masterN"><a href="#初始化masterN" class="headerlink" title="初始化masterN"></a>初始化masterN</h2><h3 id="拷贝证书文件"><a href="#拷贝证书文件" class="headerlink" title="拷贝证书文件"></a>拷贝证书文件</h3><p>将第一个master生成的证书拷贝到其他节点</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp -r /etc/kubernetes/pki/ 172.16.248.213:/etc/kubernetes/</span><br><span class="line">scp -r /etc/kubernetes/pki/ 172.16.248.214:/etc/kubernetes/</span><br></pre></td></tr></table></figure>
+
+<p>执行第一个master的所有步骤</p>
+<blockquote>
+<p>注意：修改config.yaml中的IP地址</p>
+</blockquote>
+<h2 id="配置kubectl-config文件"><a href="#配置kubectl-config文件" class="headerlink" title="配置kubectl config文件"></a>配置kubectl config文件</h2><p>修改server地址为负载均衡器地址</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 ~]# vim ~/.kube/config</span><br><span class="line">server: https://172.16.248.221:9443</span><br></pre></td></tr></table></figure>
+
+<h2 id="tab键命令补全"><a href="#tab键命令补全" class="headerlink" title="tab键命令补全"></a>tab键命令补全</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y  install bash-completion &amp;&amp; source /usr/share/bash-completion/bash_completion &amp;&amp; source &lt;(kubectl completion bash) &amp;&amp; echo &quot;source &lt;(kubectl completion bash)&quot; &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><blockquote>
+<p>随便杀进程，只要有一个master是活的，就可以提供服务。</p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://yuerblog.cc/2018/11/19/k8s%E7%B3%BB%E5%88%97-%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/#post-3948-_Toc530145006">k8s系列 - 高可用集群搭建 | 鱼儿的博客 (yuerblog.cc)</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1115558">Kubernetes1.10 HA高可用集群搭建文档 - 云+社区 - 腾讯云 (tencent.com)</a></p>
+<p><a href="https://blog.csdn.net/weixin_34010566/article/details/91614352">K8S 1.10.1 高可用环境搭建实战_weixin_34010566的博客-CSDN博客</a></p>
+<p><a href="https://blog.csdn.net/chenleiking/article/details/80136449">使用Kubeadm搭建Kubernetes HA（1.10.1）_迷途的攻城狮（798570156）的博客-CSDN博客</a></p>
+]]></content>
+      <categories>
+        <category>k8s</category>
+      </categories>
+      <tags>
+        <tag>k8s1.10.1</tag>
+        <tag>deployment</tag>
       </tags>
   </entry>
   <entry>
@@ -1214,245 +1450,6 @@ CERTIFICATE                                       EXPIRES
       <tags>
         <tag>typora</tag>
         <tag>markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>k8s生产环境高可用部署</title>
-    <url>/2022/05/11/k8s1-10-1%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<img src="/2022/05/11/k8s1-10-1%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2/1651979590369.jpg" class="">
-
-<span id="more"></span>
-
-<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><pre><code>    单主节点集群大致足以供开发和测试环境使用，节点参数调整请看这里&#123;% post_link 查看单集群部署 '2022-05-07-k8s1.10.1实验环境搭建' %&#125;。
-
-    对于生产环境，您需要考虑集群的高可用性。如果关键组件（例如 kube-apiserver、kube-scheduler 和 kube-controller-manager）都在同一个主节点上运行，一旦主节点宕机，Kubernetes 将不可用。因此，需要为多个主节点配置负载均衡器，以创建高可用集群。您可以使用任意云负载均衡器或者任意硬件负载均衡器（例如 F5）。此外，也可以使用 Keepalived 和 [HAproxy](https://www.haproxy.com/)，或者 Nginx 来创建高可用集群。
-
-本文采用Keepalived和HAproxy进行部署，经济性好，但是性能相较于硬件负载均衡器有所降低，如何取舍取决与企业自身条件。
-</code></pre>
-<h2 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h2><table>
-<thead>
-<tr>
-<th>身份</th>
-<th>名称</th>
-<th>IP</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>master1</td>
-<td>ljl-centos7-m1</td>
-<td>172.16.248.210</td>
-</tr>
-<tr>
-<td>master2</td>
-<td>ljl-centos7-m2</td>
-<td>172.16.248.213</td>
-</tr>
-<tr>
-<td>master3</td>
-<td>ljl-centos7-m3</td>
-<td>172.16.248.214</td>
-</tr>
-<tr>
-<td>node1</td>
-<td>ljl-centos7-n1</td>
-<td>172.16.248.211</td>
-</tr>
-<tr>
-<td>node2</td>
-<td>ljl-centos7-n2</td>
-<td>172.16.248.212</td>
-</tr>
-</tbody></table>
-<h1 id="安装-Keepalived-和-HAproxy"><a href="#安装-Keepalived-和-HAproxy" class="headerlink" title="安装 Keepalived 和 HAproxy"></a>安装 Keepalived 和 HAproxy</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install keepalived haproxy psmisc -y</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/haproxy/haproxy.cfg</span><br></pre></td></tr></table></figure>
-
-<details>
-  <summary>haproxy.cfg</summary>
-  <pre><code> 
-global
-    log /dev/log  local0 warning
-    chroot      /var/lib/haproxy
-    pidfile     /var/run/haproxy.pid
-    maxconn     4000
-    user        haproxy
-    group       haproxy
-    daemon
-    stats socket /var/lib/haproxy/stats
-defaults
-  log global
-  option  httplog
-  option  dontlognull
-        timeout connect 5000
-        timeout client 50000
-        timeout server 50000
-frontend kube-apiserver
-  bind *:9443
-  mode tcp
-  option tcplog
-  default_backend kube-apiserver
-backend kube-apiserver
-    mode tcp
-    option tcplog
-    option tcp-check
-    balance roundrobin
-    default-server inter 10s downinter 5s rise 2 fall 2 slowstart 60s maxconn 250 maxqueue 256 weight 100
-    server ljl-centos7-m1 172.16.248.210:6443 check 
-    server ljl-centos7-m2 172.16.248.213:6443 check 
-    server ljl-centos7-m3 172.16.248.214:6443 check  
-  </code></pre>
-</details>
-
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl enable haproxy</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /etc/keepalived/keepalived.conf</span><br></pre></td></tr></table></figure>
-
-<details>
-  <summary>keepalived.conf</summary>
-  <pre><code>
-global_defs &#123;
-  notification_email &#123;
-  &#125;
-  router_id LVS_DEVEL
-  vrrp_skip_check_adv_addr
-  vrrp_garp_interval 0
-  vrrp_gna_interval 0
-&#125;
-vrrp_script chk_haproxy &#123;
-  script "killall -0 haproxy"
-  interval 2
-  weight 2
-&#125;
-vrrp_instance haproxy-vip &#123;
-  state BACKUP
-  priority 100
-  interface ens160                   
-  virtual_router_id 60
-  advert_int 1
-  authentication &#123;
-    auth_type PASS
-    auth_pass 1111
-  &#125;
-  unicast_src_ip 172.16.248.210
-  unicast_peer &#123;
-    172.16.248.213
-    172.16.248.214
-  &#125;
-  virtual_ipaddress &#123;
-    172.16.248.221/24
-  &#125;
-  track_script &#123;
-    chk_haproxy
-  &#125;
-&#125;
-  </code></pre>
-</details>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl enable keepalived</span><br></pre></td></tr></table></figure>
-
-<h1 id="高可用etcd集群部署"><a href="#高可用etcd集群部署" class="headerlink" title="高可用etcd集群部署"></a>高可用etcd集群部署</h1><h2 id="创建自签名CA根证书"><a href="#创建自签名CA根证书" class="headerlink" title="创建自签名CA根证书"></a>创建自签名CA根证书</h2><p>CA证书的制作可以使用openssl、easyrsa、cfssl等工具完成</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p /etc/kubernetes/pki/etcd &amp;&amp; cd /etc/kubernetes/pki/etcd</span><br><span class="line">openssl genrsa -out ca.key 2048</span><br><span class="line">openssl req -x509 -new -nodes -key ca.key -subj &quot;/CN=172.16.248.210&quot; -days 36500  -out ca.crt</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>◎ -subj：“/CN”的值为Master主机名或IP地址。<br>◎ -days：设置证书的有效期。</p>
-</blockquote>
-<h2 id="创建etcd服务端CA"><a href="#创建etcd服务端CA" class="headerlink" title="创建etcd服务端CA"></a>创建etcd服务端CA</h2><p>先创建一个x509 v3配置文件etcd_ssl.cnf，其中subjectAltName参数（alt_names）包括所有etcd主机的IP地址</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;./etcd_ssl.cnf</span><br><span class="line">[ req]</span><br><span class="line">req_extensions = v3_req</span><br><span class="line">distinguished_name = req_distinguished_name</span><br><span class="line"></span><br><span class="line">[ req_distinguished_name ]</span><br><span class="line"></span><br><span class="line">[ v3_req ]</span><br><span class="line">basicConstraints = CA:FALSE</span><br><span class="line">keyUsage = nonRepudiation,digitalSignature,keyEncipherment</span><br><span class="line">subjectAltName = @alt_names </span><br><span class="line"></span><br><span class="line">[ alt_names ]</span><br><span class="line">IP.1 = 172.16.248.210</span><br><span class="line">IP.2 = 172.16.248.213</span><br><span class="line">IP.3 = 172.16.248.214</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<h2 id="生成etcd服务端证书"><a href="#生成etcd服务端证书" class="headerlink" title="生成etcd服务端证书"></a>生成etcd服务端证书</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out server.key 2048 </span><br><span class="line">openssl req -new -key server.key -config etcd_ssl.cnf -subj &quot;/CN=etcd-server&quot; -out etcd_server.csr </span><br><span class="line">openssl x509 -req -in etcd_server.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -days 36500 -extensions v3_req -extfile etcd_ssl.cnf -out server.crt</span><br></pre></td></tr></table></figure>
-
-<h2 id="生成etcd客户端证书"><a href="#生成etcd客户端证书" class="headerlink" title="生成etcd客户端证书"></a>生成etcd客户端证书</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out peer.key 2048 </span><br><span class="line">openssl req -new -key peer.key -config etcd_ssl.cnf -subj &quot;/CN=etcd-client&quot; -out etcd_peer.csr </span><br><span class="line">openssl x509 -req -in etcd_peer.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -days 36500 -extensions v3_req -extfile etcd_ssl.cnf -out peer.crt</span><br></pre></td></tr></table></figure>
-
-<p>将所有证书拷贝到其他节点</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp -r /etc/kubernetes/pki/etcd 172.16.248.213:/etc/kubernetes/pki</span><br><span class="line">scp -r /etc/kubernetes/pki/etcd 172.16.248.214:/etc/kubernetes/pki</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装etcd"><a href="#安装etcd" class="headerlink" title="安装etcd"></a>安装etcd</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export ETCD_VERSION=v3.1.12</span><br><span class="line">curl -sSL https://github.com/coreos/etcd/releases/download/$&#123;ETCD_VERSION&#125;/etcd-$&#123;ETCD_VERSION&#125;-linux-amd64.tar.gz | tar -xzv --strip-components=1 -C /usr/local/bin/</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置systemd服务"><a href="#配置systemd服务" class="headerlink" title="配置systemd服务"></a>配置systemd服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p /var/lib/etcd</span><br><span class="line">cat &lt;&lt;EOF &gt;/usr/lib/systemd/system/etcd.service</span><br><span class="line">[Unit]</span><br><span class="line">Description=Etcd Server</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line">Documentation=https://github.com/coreos</span><br><span class="line"> </span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">WorkingDirectory=/var/lib/etcd/</span><br><span class="line">ExecStart=/usr/local/bin/etcd   \</span><br><span class="line">    --name ljl-centos7-m3   \</span><br><span class="line">    --cert-file=/etc/kubernetes/pki/etcd/server.crt   \</span><br><span class="line">    --key-file=/etc/kubernetes/pki/etcd/server.key   \</span><br><span class="line">    --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt   \</span><br><span class="line">    --peer-key-file=/etc/kubernetes/pki/etcd/peer.key   \</span><br><span class="line">    --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt   \</span><br><span class="line">    --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt   \</span><br><span class="line">    --initial-advertise-peer-urls https://172.16.248.214:2380   \</span><br><span class="line">    --listen-peer-urls https://172.16.248.214:2380   \</span><br><span class="line">    --listen-client-urls https://172.16.248.214:2379,http://127.0.0.1:2379   \</span><br><span class="line">    --advertise-client-urls https://172.16.248.214:2379   \</span><br><span class="line">    --initial-cluster-token etcd-cluster-0   \</span><br><span class="line">    --initial-cluster ljl-centos7-m1=https://172.16.248.210:2380,ljl-centos7-m2=https://172.16.248.213:2380,ljl-centos7-m3=https://172.16.248.214:2380   \</span><br><span class="line">    --initial-cluster-state new   \</span><br><span class="line">    --client-cert-auth=true   \</span><br><span class="line">    --peer-client-cert-auth=true   \</span><br><span class="line">    --data-dir=/var/lib/etcd</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"> </span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<ul>
-<li>如果你的主机名和ip跟教程的不一样，请确保更换–name与相应的IPv4地址。此外，请确保你更换的每台机器的主机名，能够使用DNS访问，或确保添加记录/etc/hosts；</li>
-<li>指定 etcd 的工作目录和数据目录为 /var/lib/etcd，需在启动服务前创建这个目录；</li>
-<li>为了保证通信安全，需要指定 etcd 的公私钥(cert-file和key-file)、Peers 通信的公私钥和 CA 证书(peer-cert-file、peer-key-file、peer-trusted-ca-file)、客户端的CA证书（trusted-ca-file）；</li>
-</ul>
-</blockquote>
-<p>第二种方法</p>
-<details>
-  <summary>点击展开</summary>
-  <pre><code> 
-cat <<EOF >/usr/lib/systemd/system/etcd.service
-[Unit] 
-Dscriptiontd=key-valuestore 
-Documentation=https://github.com/etcd-io/etcd After=network.target 
-[Service] 
-EnvironmentFile=/etc/etcd/etcd.conf 
-ExecStart=/usr/local/bin/etcd
-Restart=always 
-[Install] 
-WantedBy=multi-user.target
-EOF
-&nbsp;
-mkdir /etc/etcd
-cat <<EOF >/etc/etcd/etcd.conf
-ETCD_NAME=ljl-centos7-m3
-ETCD_DATA_DIR=/etc/etcd/data 
-ETCD_CERT_FILE=/etc/etcd/pki/etcd_server.crt 
-ETCD_KEY_FILE=/etc/etcd/pki/etcd_server.key 
-ETCD_TRUSTED_CA_FILE=/etc/kubernetes/pki/ca.crt
-ETCD_CLIENT_CERT_AUTH=true 
-ETCD_LISTEN_CLIENT_URLS=https://172.16.248.214:2379
-ETCD_ADVERTISE_CLIENT_URLS=https://172.16.248.214:2379
-ETCD_PEER_CERT_FILE=/etc/etcd/pki/etcd_server.crt 
-ETCD_PEER_KEY_FILE=/etc/etcd/pki/etcd_server.key 
-ETCD_PEER_TRUSTED_CA_FILE=/etc/kubernetes/pki/ca.crt 
-ETCD_LISTEN_PEER_URLS=https://172.16.248.214:2380 
-ETCD_INITIAL_ADVERTISE_PEER_URLS=https://172.16.248.214:2380 ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster 
-ETCD_INITIAL_CLUSTER="ljl-centos7-m1 =https://172.16.248.210:2380,ljl-centos7-m2=https://172.16.248.213:2380,ljl-centos7-m3=https:/172.16.248.214:2380"
-EOF
-  </code></pre>
-</details>
-### 启动服务
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable etcd --now</span><br></pre></td></tr></table></figure>
-
-<h3 id="健康检查"><a href="#健康检查" class="headerlink" title="健康检查"></a>健康检查</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 ~]<span class="comment"># etcdctl -endpoints=https://172.16.248.210:2379,https://172.16.248.213:2379,https://172.16.248.214:2379 -ca-file=/etc/kubernetes/pki/etcd/ca.crt -cert-file=/etc/kubernetes/pki/etcd/server.crt -key-file=/etc/kubernetes/pki/etcd/server.key cluster-health</span></span><br><span class="line">2022-05-10 10:49:25.457174 I | warning: ignoring ServerName <span class="keyword">for</span> user-provided CA <span class="keyword">for</span> backwards compatibility is deprecated</span><br><span class="line">2022-05-10 10:49:25.458542 I | warning: ignoring ServerName <span class="keyword">for</span> user-provided CA <span class="keyword">for</span> backwards compatibility is deprecated</span><br><span class="line">member 71aad14d35084bfd is healthy: got healthy result from https://172.16.248.213:2379</span><br><span class="line">member 77254e7dcb3087cd is healthy: got healthy result from https://172.16.248.210:2379</span><br><span class="line">member c2d8166cb1fd5f88 is healthy: got healthy result from https://172.16.248.214:2379</span><br><span class="line">cluster is healthy</span><br><span class="line">[root@ljl-cnetos7-m2 ~]<span class="comment"># curl -L http://127.0.0.1:2379/health</span></span><br><span class="line">&#123;<span class="string">&quot;health&quot;</span>: <span class="string">&quot;true&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="初始化集群"><a href="#初始化集群" class="headerlink" title="初始化集群"></a>初始化集群</h1><h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><pre><code>    按单主节点模式，设备参数调整完毕，软件docker、kubeadm、kubelet、kubectl安装完毕。
-</code></pre>
-<h2 id="初始化第一个master"><a href="#初始化第一个master" class="headerlink" title="初始化第一个master"></a>初始化第一个master</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; config.yaml </span><br><span class="line">apiVersion: kubeadm.k8s.io/v1alpha1</span><br><span class="line">kind: MasterConfiguration</span><br><span class="line">etcd:</span><br><span class="line">  endpoints:</span><br><span class="line">  - https://172.16.248.210:2379</span><br><span class="line">  - https://172.16.248.213:2379</span><br><span class="line">  - https://172.16.248.214:2379</span><br><span class="line">  caFile: /etc/kubernetes/pki/ca.crt</span><br><span class="line">  certFile: /etc/kubernetes/pki/etcd/server.crt</span><br><span class="line">  keyFile: /etc/kubernetes/pki/etcd/server.key</span><br><span class="line">  dataDir: /var/lib/etcd</span><br><span class="line">networking:</span><br><span class="line">  podSubnet: 10.244.0.0/16</span><br><span class="line">kubernetesVersion: 1.10.1</span><br><span class="line">api:</span><br><span class="line">  advertiseAddress: &quot;172.16.248.210&quot;</span><br><span class="line">  #advertiseAddress: &quot;172.16.248.221:9443&quot;</span><br><span class="line">  #这里应该写每个主机的IP地址，写负载均衡器地址会出问题</span><br><span class="line">#token: &quot;b99a00.a144ef80536d4344&quot;</span><br><span class="line">#tokenTTL: &quot;0s&quot;	## token 永不失效</span><br><span class="line">apiServerCertSANs:</span><br><span class="line">- ljl-centos7-m1</span><br><span class="line">- ljl-centos7-m2</span><br><span class="line">- ljl-centos7-m3</span><br><span class="line">- 172.16.248.210</span><br><span class="line">- 172.16.248.213</span><br><span class="line">- 172.16.248.214</span><br><span class="line">- 172.16.248.221</span><br><span class="line">featureGates:</span><br><span class="line">  CoreDNS: true</span><br><span class="line">#imageRepository: &quot;registry.cn-hangzhou.aliyuncs.com/k8sth&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm init --config config.yaml </span><br></pre></td></tr></table></figure>
-
-<h2 id="初始化masterN"><a href="#初始化masterN" class="headerlink" title="初始化masterN"></a>初始化masterN</h2><h3 id="拷贝证书文件"><a href="#拷贝证书文件" class="headerlink" title="拷贝证书文件"></a>拷贝证书文件</h3><p>将第一个master生成的证书拷贝到其他节点</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp -r /etc/kubernetes/pki/ 172.16.248.213:/etc/kubernetes/</span><br><span class="line">scp -r /etc/kubernetes/pki/ 172.16.248.214:/etc/kubernetes/</span><br></pre></td></tr></table></figure>
-
-<p>执行第一个master的所有步骤</p>
-<blockquote>
-<p>注意：修改config.yaml中的IP地址</p>
-</blockquote>
-<h2 id="配置kubectl-config文件"><a href="#配置kubectl-config文件" class="headerlink" title="配置kubectl config文件"></a>配置kubectl config文件</h2><p>修改server地址为负载均衡器地址</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@ljl-centos7-m1 ~]# vim ~/.kube/config</span><br><span class="line">server: https://172.16.248.221:9443</span><br></pre></td></tr></table></figure>
-
-<h2 id="tab键命令补全"><a href="#tab键命令补全" class="headerlink" title="tab键命令补全"></a>tab键命令补全</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y  install bash-completion &amp;&amp; source /usr/share/bash-completion/bash_completion &amp;&amp; source &lt;(kubectl completion bash) &amp;&amp; echo &quot;source &lt;(kubectl completion bash)&quot; &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><blockquote>
-<p>随便杀进程，只要有一个master是活的，就可以提供服务。</p>
-</blockquote>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://yuerblog.cc/2018/11/19/k8s%E7%B3%BB%E5%88%97-%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/#post-3948-_Toc530145006">k8s系列 - 高可用集群搭建 | 鱼儿的博客 (yuerblog.cc)</a></p>
-<p><a href="https://cloud.tencent.com/developer/article/1115558">Kubernetes1.10 HA高可用集群搭建文档 - 云+社区 - 腾讯云 (tencent.com)</a></p>
-<p><a href="https://blog.csdn.net/weixin_34010566/article/details/91614352">K8S 1.10.1 高可用环境搭建实战_weixin_34010566的博客-CSDN博客</a></p>
-<p><a href="https://blog.csdn.net/chenleiking/article/details/80136449">使用Kubeadm搭建Kubernetes HA（1.10.1）_迷途的攻城狮（798570156）的博客-CSDN博客</a></p>
-]]></content>
-      <categories>
-        <category>k8s</category>
-      </categories>
-      <tags>
-        <tag>k8s1.10.1</tag>
-        <tag>deployment</tag>
       </tags>
   </entry>
 </search>
